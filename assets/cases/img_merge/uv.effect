@@ -1,0 +1,67 @@
+// Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
+
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: vs
+      frag: fs
+      blendState:
+        targets:
+        - blend: true
+      rasterizerState:
+        cullMode: none
+      properties:
+        texture: { value: white }
+        time: { value: 0 }
+        speed: { value: 0.002 }
+}%
+
+
+CCProgram vs %{
+
+  precision highp float;
+
+  #include <cc-global>
+
+  in vec3 a_position;
+
+  in mediump vec2 a_uv0;
+  out mediump vec2 v_uv0;
+
+  in vec4 a_color;
+  out vec4 v_color;
+
+  void main () {
+    gl_Position = cc_matViewProj * vec4(a_position, 1);
+    v_uv0 = a_uv0;
+    v_color = a_color;
+  }
+
+}%
+
+
+CCProgram fs %{
+  precision highp float;
+
+  uniform Time {
+    float time;
+  };
+
+  uniform SPEED {
+    float speed;
+  };
+
+  uniform sampler2D texture;
+  in mediump vec2 v_uv0;
+  in vec4 v_color;
+
+  void main () {
+    vec2 uv = v_uv0.xy;
+    uv.x += time * speed;
+    uv.y -= time * speed;
+    uv.x = fract(uv.x);
+    uv.y = fract(uv.y);
+    vec4 color = texture2D(texture, uv);
+    gl_FragColor = color;
+  }
+}%
