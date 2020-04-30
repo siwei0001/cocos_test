@@ -1363,7 +1363,7 @@ declare namespace cc {
 	var v4 = cc.v4({x: 100, y: 100, z: 0});
 	``` 
 	*/
-	export function v4(x?: number|any, y?: number, z?: number): Vec4;	
+	export function v4(x?: number|any, y?: number, z?: number, w?: number): Vec4;	
 	/**
 	!#en Defines a CCClass using the given specification, please see [Class](/docs/editors_and_tools/creator-chapters/scripting/class.html) for details.
 	!#zh 定义一个 CCClass，传入参数必须是一个包含类型参数的字面量对象，具体用法请查阅[类型定义](/docs/creator/scripting/class.html)。

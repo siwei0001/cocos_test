@@ -1,0 +1,136 @@
+// Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.  
+
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: vs
+      frag: fs
+      blendState:
+        targets:
+        - blend: true
+      rasterizerState:
+        cullMode: none
+      properties:
+        texture: { value: white }
+        alphaThreshold: { value: 0.5 }
+}%
+
+CCProgram vs1 %{
+  precision highp float;
+
+  #include <cc-global>
+  #include <cc-local>
+
+  attribute vec4 a_position;//需传入所有粒子的坐标
+  attribute vec2 a_texCoord;//纹理贴图的纹理坐标
+
+  uniform vec4 u_color;//颜色混合
+  uniform float u_pointSize;//传入粒子的大小
+  uniform float u_ratio;//传入的屏幕坐标系与物理坐标系的比例
+  uniform vec2 u_texSize;
+
+  void main () {
+    vec4 pos = vec4(a_position.xy*u_ratio, 1, 1); //将物理世界坐标系转化为像素坐标系
+    gl_Position = CC_MVPMatrix * pos;
+    gl_PointSize = u_pointSize;
+    v_fragmentColor = u_color;
+	//vec2 newCoord = vec2(clamp(a_texCoord.x, 0.0, 1.0), clamp(a_texCoord.y, 0.0, 1.0));
+    v_texCoord = a_texCoord;
+  }
+}%
+
+CCProgram fs1 %{
+  precision highp float;
+  
+  #include <alpha-test>
+  #include <texture>
+ 
+  uniform sampler2D u_texture;//传入Texture2D 纹理贴图
+  void main()
+  {
+      gl_FragColor = texture2D(u_texture, v_texCoord)*v_fragmentColor;//将纹理采样颜色与v_fragmentColor混合，然后输出
+  }
+}%
+
+CCProgram vs %{
+  precision highp float;
+
+  #include <cc-global>
+  #include <cc-local>
+
+  attribute vec4 a_position;//需传入所有粒子的坐标
+  attribute vec2 a_texCoord;//纹理贴图的纹理坐标
+
+  in vec4 a_color;
+  out vec4 v_color;
+
+  uniform U_color {
+    vec4 u_color;
+  };
+
+  uniform U_pointSize {
+    float u_pointSize;
+  };
+
+  uniform U_ratio {
+    float u_ratio;
+  };
+
+  uniform U_texSize {
+    vec2 u_texSize;
+  };
+
+  #if USE_TEXTURE
+  in vec2 a_uv0;
+  out vec2 v_uv0;
+  #endif
+
+  void main () {
+    vec4 pos = vec4(a_position.xy*u_ratio, 1, 1); //将物理世界坐标系转化为像素坐标系
+    gl_Position = CC_MVPMatrix * pos;
+    gl_PointSize = u_pointSize;
+
+    #if CC_USE_MODEL
+    // pos = cc_matViewProj * cc_matWorld * pos;
+    #else
+    // pos = cc_matViewProj * pos;
+    #endif
+
+    #if USE_TEXTURE
+    // v_uv0 = a_uv0;
+    #endif
+
+    v_fragmentColor = u_color;
+    v_texCoord = a_texCoord;
+  }
+}%
+
+
+CCProgram fs %{
+  precision highp float;
+
+  #include <alpha-test>
+
+  uniform sampler2D u_texture;//传入Texture2D 纹理贴图
+
+  #if USE_TEXTURE
+  in vec2 v_uv0;
+  uniform sampler2D texture;
+  #endif  
+
+  void main () {
+
+    #if USE_TEXTURE
+    // o *= texture(texture, v_uv0);
+      #if CC_USE_ALPHA_ATLAS_TEXTURE
+      // o.a *= texture2D(texture, v_uv0 + vec2(0, 0.5)).r;
+      #endif
+    #endif
+    // o *= v_color;
+
+    // ALPHA_TEST(o);
+    // o.a = 1.0;
+
+    gl_FragColor = texture2D(u_texture, v_texCoord)*v_fragmentColor;//将纹理采样颜色与v_fragmentColor混合，然后输出
+  }
+}%

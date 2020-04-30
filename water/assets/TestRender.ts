@@ -8,20 +8,12 @@
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
-
-    @property(cc.Label)
-    label: cc.Label = null;
-
-    @property
-    text: string = 'hello';
-
+export default class TestRender extends cc.RenderComponent {
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
 
     start () {
-        
 
     }
 

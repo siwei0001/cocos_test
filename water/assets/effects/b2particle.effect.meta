@@ -1,0 +1,17 @@
+{
+  "ver": "1.0.25",
+  "uuid": "b61463fd-c94d-4dae-8c23-e1ffacdfd86d",
+  "compiledShaders": [
+    {
+      "glsl1": {
+        "vert": "\nprecision highp float;\nattribute vec4 a_position;\nattribute vec2 a_texCoord;\nattribute vec4 a_color;\nvarying vec4 v_color;\nuniform vec4 u_color;\nuniform float u_pointSize;\nuniform float u_ratio;\n#if USE_TEXTURE\nattribute vec2 a_uv0;\nvarying vec2 v_uv0;\n#endif\nvoid main () {\n  vec4 pos = vec4(a_position.xy*u_ratio, 1, 1);\n  gl_Position = CC_MVPMatrix * pos;\n  gl_PointSize = u_pointSize;\n  #if CC_USE_MODEL\n  #else\n  #endif\n  #if USE_TEXTURE\n  #endif\n  v_fragmentColor = u_color;\n  v_texCoord = a_texCoord;\n}",
+        "frag": "\nprecision highp float;\n#if USE_ALPHA_TEST\n#endif\nuniform sampler2D u_texture;\n#if USE_TEXTURE\nvarying vec2 v_uv0;\nuniform sampler2D texture;\n#endif\nvoid main () {\n  #if USE_TEXTURE\n    #if CC_USE_ALPHA_ATLAS_TEXTURE\n    #endif\n  #endif\n  gl_FragColor = texture2D(u_texture, v_texCoord)*v_fragmentColor;\n}"
+      },
+      "glsl3": {
+        "vert": "\nprecision highp float;\nuniform CCGlobal {\n  mat4 cc_matView;\n  mat4 cc_matViewInv;\n  mat4 cc_matProj;\n  mat4 cc_matProjInv;\n  mat4 cc_matViewProj;\n  mat4 cc_matViewProjInv;\n  vec4 cc_cameraPos;\n  vec4 cc_time;\n  mediump vec4 cc_screenSize;\n  mediump vec4 cc_screenScale;\n};\nuniform CCLocal {\n  mat4 cc_matWorld;\n  mat4 cc_matWorldIT;\n};\nattribute vec4 a_position;\nattribute vec2 a_texCoord;\nin vec4 a_color;\nout vec4 v_color;\nuniform U_color {\n  vec4 u_color;\n};\nuniform U_pointSize {\n  float u_pointSize;\n};\nuniform U_ratio {\n  float u_ratio;\n};\nuniform U_texSize {\n  vec2 u_texSize;\n};\n#if USE_TEXTURE\nin vec2 a_uv0;\nout vec2 v_uv0;\n#endif\nvoid main () {\n  vec4 pos = vec4(a_position.xy*u_ratio, 1, 1);\n  gl_Position = CC_MVPMatrix * pos;\n  gl_PointSize = u_pointSize;\n  #if CC_USE_MODEL\n  #else\n  #endif\n  #if USE_TEXTURE\n  #endif\n  v_fragmentColor = u_color;\n  v_texCoord = a_texCoord;\n}",
+        "frag": "\nprecision highp float;\n#if USE_ALPHA_TEST\n  uniform ALPHA_TEST {\n    float alphaThreshold;\n  };\n#endif\nuniform sampler2D u_texture;\n#if USE_TEXTURE\nin vec2 v_uv0;\nuniform sampler2D texture;\n#endif\nvoid main () {\n  #if USE_TEXTURE\n    #if CC_USE_ALPHA_ATLAS_TEXTURE\n    #endif\n  #endif\n  gl_FragColor = texture2D(u_texture, v_texCoord)*v_fragmentColor;\n}"
+      }
+    }
+  ],
+  "subMetas": {}
+}

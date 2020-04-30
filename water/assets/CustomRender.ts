@@ -5,24 +5,30 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
+import CustomAssembler from "./CustomAssembler";
+
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
-
-    @property(cc.Label)
-    label: cc.Label = null;
-
-    @property
-    text: string = 'hello';
+export default class CustomRender extends cc.RenderComponent {
 
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
 
-    start () {
-        
+    _assembler:any = null;
 
+    ctor () {
+        // 顶点数据装配器
+        this._assembler = null;
+        
+    }
+
+    _resetAssembler () {
+        CustomRender.init(this);
+        
+        this._updateColor();
+        this.setVertsDirty();
     }
 
     // update (dt) {}
