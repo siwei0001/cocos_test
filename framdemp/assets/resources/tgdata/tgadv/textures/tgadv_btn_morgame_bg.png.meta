@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.4",
+  "uuid": "1eace9d9-7edc-4571-a27f-e2d4c3f596e1",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 128,
+  "height": 125,
+  "platformSettings": {},
+  "subMetas": {
+    "tgadv_btn_morgame_bg": {
+      "ver": "1.0.4",
+      "uuid": "201c043f-bff0-4669-95cd-a4a7393d791d",
+      "rawTextureUuid": "1eace9d9-7edc-4571-a27f-e2d4c3f596e1",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 128,
+      "height": 125,
+      "rawWidth": 128,
+      "rawHeight": 125,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

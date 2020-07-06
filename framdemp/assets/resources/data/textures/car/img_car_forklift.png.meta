@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.4",
+  "uuid": "2a52bbd8-1754-4e6a-bc35-8e27a67ad0ff",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 109,
+  "height": 77,
+  "platformSettings": {},
+  "subMetas": {
+    "img_car_forklift": {
+      "ver": "1.0.4",
+      "uuid": "6796c91a-6183-4114-b3b7-6a2255830d99",
+      "rawTextureUuid": "2a52bbd8-1754-4e6a-bc35-8e27a67ad0ff",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 109,
+      "height": 77,
+      "rawWidth": 109,
+      "rawHeight": 77,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

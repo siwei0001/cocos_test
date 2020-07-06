@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.4",
+  "uuid": "05cee06a-4659-4a34-be8f-80eea04c6140",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 94,
+  "height": 58,
+  "platformSettings": {},
+  "subMetas": {
+    "img_car_red_1": {
+      "ver": "1.0.4",
+      "uuid": "1d5e1f00-a119-45d5-8357-76ae7f03a5cb",
+      "rawTextureUuid": "05cee06a-4659-4a34-be8f-80eea04c6140",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 94,
+      "height": 58,
+      "rawWidth": 94,
+      "rawHeight": 58,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
