@@ -1,11 +1,11 @@
-export class WeChat {
+export class Bytedanace {
 
     /**
-     * 监听微信的显示函数
+     * 监听的显示函数
      * @param {Function} _callFun 显示事件回调函数
      */
     static OnShow(_callFun: Function) {
-        window["wx"].onShow((res) => {
+        window["tt"].onShow((res) => {
             //配置详情页
             console.log("onShow res", res);
             // this.ResumeMusic();
@@ -16,12 +16,12 @@ export class WeChat {
     }
 
     /**
-     * 监听微信的隐藏函数
+     * 监听的隐藏函数
      * @param {Function} _callFun 隐藏事件回调函数
      */
     static OnHide(_callFun: Function) {
-        window["wx"].onHide((res) => {
-            console.log('weixin onhide res', res);
+        window["tt"].onHide((res) => {
+            console.log('zijie onhide res', res);
             // this.PauseMusic();
             if (_callFun) {
                 _callFun(res);
@@ -29,13 +29,13 @@ export class WeChat {
         })
     }
     /**
-     * 微信登录
+     * 登录
      * @param {Function} _onSuccess 登录成功回调函数
      * @param {Function} _onFail 登录失败回调函数
      */
     static Login(_onSuccess: Function, _onFail: Function) {
 
-        window["wx"].login({
+        window["tt"].login({
             success(res) {
                 if (res.code) {
                     console.log('登录成功！' + res.code);
@@ -57,76 +57,33 @@ export class WeChat {
             }
         })
 
-
-
     }
 
     /**
      * 获取设备信息同步接口
      */
     static GetSystemInfoSync(): any {
-        return window["wx"].getSystemInfoSync();
+        return window["tt"].getSystemInfoSync();
     }
 
     /**
      * 获取启动参数
      */
     static GetLaunchOptionsSync(): any {
-        return window["wx"].getLaunchOptionsSync();
+        return window["tt"].getLaunchOptionsSync();
     }
 
     /**
      * 获取菜单按钮（右上角胶囊按钮）的布局位置信息。坐标信息以屏幕左上角为原点。
      */
     static GetMenuButtonBoundingClientRect(): any {
-        const version = WeChat.GetSystemInfoSync().SDKVersion
-        if (WeChat.CompareVersion(version, '2.1.0') >= 0) {
-            return window["wx"].getMenuButtonBoundingClientRect();
+        const version = Bytedanace.GetSystemInfoSync().SDKVersion
+        if (Bytedanace.CompareVersion(version, '2.1.0') >= 0) {
+            return window["tt"].getMenuButtonBoundingClientRect();
         } else {
             // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
-            // WeChat.ShowModal("提示", '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。');
+            // Bytedanace.ShowModal("提示", '当前版本过低，无法使用该功能，请升级到最新版本后重试。');
             return null;
-        }
-    }
-
-    /**
-     * 加载分包
-     * @param {string} _subPackageName      分包名字
-     * @param {Function} _onSuccess         成功回调函数
-     * @param {Function} _onFail            失败回调函数
-     * @param {Function} _onProgressUpdate  进度回调函数
-     */
-    static LoadSubpackage(_subPackageName: string, _onSuccess: Function, _onFail: Function, _onProgressUpdate: Function) {
-        const version = WeChat.GetSystemInfoSync().SDKVersion
-        if (WeChat.CompareVersion(version, '2.1.0') >= 0) {
-            const loadTask = window["wx"].loadSubpackage({
-                name: _subPackageName, // name 可以填 name 或者 root
-                success: function (res) {
-                    // 分包加载成功后通过 success 回调
-                    if (_onSuccess) {
-                        _onSuccess(res)
-                    }
-                },
-                fail: function (res) {
-                    // 分包加载失败通过 fail 回调
-                    if (_onFail) {
-                        _onFail(res)
-                    }
-                }
-            })
-
-            loadTask.onProgressUpdate(res => {
-                if (_onProgressUpdate) {
-                    _onProgressUpdate(res);
-                }
-
-                // '下载进度', res.progress
-                // '已经下载的数据长度', res.totalBytesWritten
-                // '预期需要下载的数据总长度', res.totalBytesExpectedToWrite
-            })
-        } else {
-            // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
-            WeChat.ShowModal("提示", '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。');
         }
     }
 
@@ -136,8 +93,7 @@ export class WeChat {
      * @param {Function} _onFail       失败返回函数
      */
     static GetUserInfo(_onSuccess: Function, _onFail: Function) {
-
-        window["wx"].getUserInfo({
+        window["tt"].getUserInfo({
             success: (res) => {
                 _onSuccess(res.userInfo);
             },
@@ -151,12 +107,18 @@ export class WeChat {
      * 请求授权接口
      * @param {Function} _onSuccess    成功返回函数
      * @param {Function} _onFail       失败返回函数
+     * scope.userInfo	boolean	是否授权用户信息，对应接口 tt.getUserInfo
+        scope.userLocation	boolean	是否授权地理位置，对应接口 tt.getLocation
+        scope.address	boolean	是否授权通讯地址，对应接口 tt.chooseAddress
+        scope.record	boolean	是否授权录音功能，对应接口 tt.getRecorderManager.start
+        scope.album	boolean	是否授权保存到相册 tt.saveImageToPhotosAlbum, tt.saveVideoToPhotosAlbum
+        scope.camera	boolean	是否授权摄像头 对应接口 tt.scanCode，tt.chooseImage，tt.chooseVideo
      */
     static Authorize(_onSuccess: Function, _onFail: Function) {
-        const version = WeChat.GetSystemInfoSync().SDKVersion
-        if (WeChat.CompareVersion(version, '1.2.0') >= 0) {
+        const version = Bytedanace.GetSystemInfoSync().SDKVersion
+        if (Bytedanace.CompareVersion(version, '1.3.0') >= 0) {
             // 可以通过 qq.getSetting 先查询一下用户是否授权了 "scope.userInfo" 这个 scope
-            window["wx"].getSetting({
+            window["tt"].getSetting({
                 success: (res) => {
                     // console.log("qq.getSetting success res.authSetting", res.authSetting);
                     if (res.authSetting['scope.userInfo']) {
@@ -172,62 +134,20 @@ export class WeChat {
             })
         } else {
             // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
-            // WeChat.ShowModal("提示", '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。');
+            // Bytedanace.ShowModal("提示", '当前版本过低，无法使用该功能，请升级到最新版本后重试。');
             _onFail();
         }
     }
 
     /**
-     * 创建授权按钮
-     * @param {string} _textureUrl       按钮纹理地址
-     * @param {number} _left             靠左边多少像素
-     * @param {number} _top              靠上边多少像素
-     * @param {number} _width            宽
-     * @param {number} _height           高
-     * @param {Function} _onSuccess      成功返回函数
-     * @param {Function} _onFail         失败返回函数
-     */
-    static CreateUserInfoButton(_textureUrl: string, _left: number, _top: number, _width: number, _height: number, _onSuccess: Function, _onFail: Function) {
-        console.log("CreateUserInfoButton ");
-        const version = WeChat.GetSystemInfoSync().SDKVersion
-        if (WeChat.CompareVersion(version, '2.0.1') >= 0) {
-            let button = window["wx"].createUserInfoButton({
-                type: 'image',
-                image: _textureUrl,
-                style: {
-                    left: _left,
-                    top: _top,
-                    width: _width,
-                    height: _height,
-                }
-            })
-            console.log("CreateUserInfoButton button", button);
-            button.show();
-            button.onTap((res) => {
-                console.log(res)
-                button.destroy();
-                if (res.userInfo) {
-                    _onSuccess(res.userInfo);
-                } else {
-                    _onFail("拒绝授权");
-                }
-            })
-        } else {
-            // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
-            // WeChat.ShowModal("提示", '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。');
-            _onFail("拒绝授权");
-        }
-    }
-
-    /**
-     * 微信分享转发监听
+     * 分享转发监听
      * @param {Function} _onShareCallFun 分享事件回调函数
      */
     static InitWxShare(_onShareCallFun: Function) {
-        const version = WeChat.GetSystemInfoSync().SDKVersion
-        if (WeChat.CompareVersion(version, '1.1.0') >= 0) {
+        const version = Bytedanace.GetSystemInfoSync().SDKVersion
+        if (Bytedanace.CompareVersion(version, '1.1.0') >= 0) {
             //显示当前转发按钮
-            window["wx"].showShareMenu({
+            window["tt"].showShareMenu({
                 withShareTicket: true,
                 success: function () {
                     // console.log("wei xin showShareMenu success....");
@@ -240,10 +160,10 @@ export class WeChat {
                 }
             });
             //被动转发的设置
-            window["wx"].onShareAppMessage(_onShareCallFun)
+            window["tt"].onShareAppMessage(_onShareCallFun)
         } else {
             // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
-            // WeChat.ShowModal("提示", '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。');
+            // Bytedanace.ShowModal("提示", '当前版本过低，无法使用该功能，请升级到最新版本后重试。');
         }
     }
 
@@ -251,11 +171,17 @@ export class WeChat {
      * 分享 
      * @param {string} _title 分享标题
      * @param {string} _imageUrl 分享图片地址
-     * 
+     * channel	string	否	转发内容类型	
+        templateId	string	否	分享素材模板 id，指定通过平台审核的 templateId 来选择分享内容，需在平台设置且通过审核。	1.22.3
+        desc	string	否	分享文案，不传则默认使用后台配置内容或平台默认。	1.30.0
+        title	string	否	转发标题，不传则默认使用后台配置或当前小游戏的名称。	
+        imageUrl	string	否	转发显示图片的链接，可以是网络图片路径或本地图片文件路径或相对代码包根目录的图片文件路径，显示图片长宽比推荐 5:4	
+        query	string	否	查询字符串，必须是 key1=val1&key2=val2 的格式。从这条转发消息进入后，可通过 tt.getLaunchOptionsSync() 或 tt.onShow() 获取启动参数中的 query。	
+        extra	object	否	附加信息
      */
     static ShareAppMessage(_title: string, _imageUrl: string) {
 
-        window["wx"].shareAppMessage({
+        window["tt"].shareAppMessage({
             title: _title,
             // imageUrlId: '转发标题',
             imageUrl: _imageUrl // 图片 URL
@@ -264,39 +190,15 @@ export class WeChat {
     }
 
     /**
-     *  截图功能
-     * 
-     *  @param {number} x 	 	0 	否 	截取 canvas 的左上角横坐标
-     *  @param {number} y 	 	0 	否 	截取 canvas 的左上角纵坐标
-     *  @param {number} width 	 	canvas 的宽度 	否 	截取 canvas 的宽度
-     *  @param {number} height 	 	canvas 的高度 	否 	截取 canvas 的高度
-     *  @param {number} destWidth 	canvas 的宽度 	否 	目标文件的宽度，会将截取的部分拉伸或压缩至该数值
-     *  @param {number} destHeight  canvas 的高度 	否 	目标文件的高度，会将截取的部分拉伸或压缩至该数值
-     *  @param {string} fileType 	png 	否 	目标文件的类型
-     *  @param {number} quality 	1.0 	否 	jpg图片的质量，仅当 fileType 为 jpg 时有效。取值范围为 0.0（最低）- 1.0（最高），不含 0。不在范围内时当作 1.0
-     */
-    static RenderTexture(_x: number = 0, _y: number = 0, _width: number = 200, _height: number = 150, _destWidth: number = 500, _destHeight: number = 400, _fileType: string = "png", _quality: number = 1.0) {
-        // console.log("_x", _x, "_y", _y, "_width", _width, "_height", _height, "_destWidth", _destWidth, "_destHeight", _destHeight);
-        // const tempFilePath = canvas.toTempFilePathSync({
-        //     x: _x,
-        //     y: _y,
-        //     width: _width,
-        //     height: _height,
-        //     destWidth: _destWidth,
-        //     destHeight: _destHeight,
-        //     fileType: _fileType,
-        //     quality: _quality,
-        // })
-        // return tempFilePath;
-    }
-
-    /**
      * 加快触发 JavaScriptCore 垃圾回收（Garbage Collection）
      * GC 时机是由 JavaScriptCore 来控制的，并不能保证调用后马上触发 GC。
-     * window["wx"].triggerGC()
+     * window["tt"].triggerGC()
      */
     static TriggerGC() {
-        window["wx"].triggerGC()
+        const version = Bytedanace.GetSystemInfoSync().SDKVersion
+        if (Bytedanace.CompareVersion(version, '1.15.0') >= 0) {
+            window["tt"].triggerGC();
+        }
     }
 
     /**
@@ -304,13 +206,12 @@ export class WeChat {
      * @param {any} _messagedata
      */
     static OpenDataContextPostMessage(_messagedata: any) {
-        // 1.9.92
-        const version = WeChat.GetSystemInfoSync().SDKVersion
-        if (WeChat.CompareVersion(version, '1.9.92') >= 0) {
-            window["wx"].getOpenDataContext().postMessage(_messagedata);
+        const version = Bytedanace.GetSystemInfoSync().SDKVersion
+        if (Bytedanace.CompareVersion(version, '1.11.0') >= 0) {
+            window["tt"].getOpenDataContext().postMessage(_messagedata);
         } else {
             // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
-            // WeChat.ShowModal("提示", '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。');
+            // Bytedanace.ShowModal("提示", '当前版本过低，无法使用该功能，请升级到最新版本后重试。');
         }
     }
 
@@ -319,8 +220,8 @@ export class WeChat {
      * @param {any} _kvDataList kv数据
      */
     static UploadUserCloudData(_kvDataList: any) {
-        const version = WeChat.GetSystemInfoSync().SDKVersion
-        if (WeChat.CompareVersion(version, '1.9.92') >= 0) {
+        const version = Bytedanace.GetSystemInfoSync().SDKVersion
+        if (Bytedanace.CompareVersion(version, '1.11.0') >= 0) {
             let userdata = {
                 KVDataList: _kvDataList,
                 success: function (res) {
@@ -334,10 +235,10 @@ export class WeChat {
                 },
             }
 
-            window["wx"].setUserCloudStorage(userdata);
+            window["tt"].setUserCloudStorage(userdata);
         } else {
             // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
-            // WeChat.ShowModal("提示", '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。');
+            // Bytedanace.ShowModal("提示", '当前版本过低，无法使用该功能，请升级到最新版本后重试。');
         }
     }
 
@@ -348,13 +249,12 @@ export class WeChat {
      * @param {number} _top 顶部位置 默认0
      * @param {number} _width 宽度 默认300
      * @param {number} _height 高度 默认100
-     * @param {number} _adIntervals 广告刷新时间 默认30
-     * 
+     * @param {number} _adIntervals 广告刷新间隔 默认30
      */
     static CreateBannerAd(_adUnitId: string, _left: number = 0, _top: number = 0, _width: number = 300, _height: number = 100, _adIntervals: number = 30) {
-        const version = WeChat.GetSystemInfoSync().SDKVersion
-        if (WeChat.CompareVersion(version, '2.0.4') >= 0) {
-            let banner = window["wx"].createBannerAd({
+        const version = Bytedanace.GetSystemInfoSync().SDKVersion
+        if (Bytedanace.CompareVersion(version, '1.3.0') >= 0) {
+            let banner = window["tt"].createBannerAd({
                 adUnitId: _adUnitId,
                 style: {
                     left: _left,
@@ -368,7 +268,7 @@ export class WeChat {
             return banner;
         } else {
             // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
-            // WeChat.ShowModal("提示", '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。');
+            // Bytedanace.ShowModal("提示", '当前版本过低，无法使用该功能，请升级到最新版本后重试。');
             return null;
         }
     }
@@ -378,104 +278,35 @@ export class WeChat {
      * @param {string} _adUnitId 广告id
      */
     static CreateRewardedVideoAd(_adUnitId: string) {
-        const version = WeChat.GetSystemInfoSync().SDKVersion
-        if (WeChat.CompareVersion(version, '2.0.4') >= 0) {
-            let rewardedVideoAd = window["wx"].createRewardedVideoAd({
+        const version = Bytedanace.GetSystemInfoSync().SDKVersion
+        if (Bytedanace.CompareVersion(version, '1.3.0') >= 0) {
+            let rewardedVideoAd = window["tt"].createRewardedVideoAd({
                 adUnitId: _adUnitId
             })
             return rewardedVideoAd;
         } else {
             // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
-            // WeChat.ShowModal("提示", '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。');
+            // Bytedanace.ShowModal("提示", '当前版本过低，无法使用该功能，请升级到最新版本后重试。');
             return null;
         }
     }
+
 
     /**
      * 创建插屏广告
      * @param {string} _adUnitId 广告id
      */
     static CreateInterstitialAd(_adUnitId: string) {
-        // 2.6.0
-        const version = WeChat.GetSystemInfoSync().SDKVersion
-        if (WeChat.CompareVersion(version, '2.6.0') >= 0) {
-            let interstitialAd = window["wx"].createInterstitialAd({
+        const version = Bytedanace.GetSystemInfoSync().SDKVersion
+        if (Bytedanace.CompareVersion(version, '1.3.0') >= 0) {
+            let interstitialAd = window["tt"].createInterstitialAd({
                 adUnitId: _adUnitId
             })
+
             return interstitialAd;
         } else {
             // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
-            // WeChat.ShowModal("提示", '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。');
-            return null;
-        }
-    }
-
-    /**
-    * 创建格子广告
-    * @param {string} _adUnitId 广告id
-    * @param {number} _left 左边位置 默认0
-    * @param {number} _top 顶部位置 默认0
-    * @param {number} _width 宽度   默认300
-    * @param {number} _height 高度  默认100
-    * @param {number} _adIntervals 广告刷新间隔 默认30
-    * @param {string} _adTheme 主题 分white black 默认white
-    * @param {number} _gridCount 广告组件的格子个数，可设置爱5，8两种格子个数样式，默认值为5
-    * 
-    */
-    static CreateGridAd(_adUnitId: string, _left: number = 0, _top: number = 0, _width: number = 300, _height: number = 100, _adIntervals: number = 30, _adTheme: string = "white", _gridCount: number = 5) {
-        // 2.9.2
-        const version = WeChat.GetSystemInfoSync().SDKVersion
-        if (WeChat.CompareVersion(version, '2.9.2') >= 0) {
-            let gridAd = window["wx"].createGridAd({
-                adUnitId: _adUnitId,
-                style: {
-                    left: _left,
-                    top: _top,
-                    width: _width,
-                    height: _height
-                },
-                adIntervals: _adIntervals,
-                adTheme: _adTheme,
-                gridCount: _gridCount
-            })
-
-            return gridAd;
-        } else {
-            // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
-            // WeChat.ShowModal("提示", '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。');
-            return null;
-        }
-    }
-
-
-    /**
-    * 创建原生广告
-    * @param {string} _adUnitId 广告id
-    * @param {number} _left 左边位置 默认0
-    * @param {number} _top 顶部位置 默认0
-    * @param {number} _width 宽度   默认300
-    * @param {number} _height 高度  默认100
-    * @param {number} _adIntervals 广告刷新间隔 默认30
-    */
-    static CreateCustomAd(_adUnitId: string, _left: number = 0, _top: number = 0, _width: number = 300, _height: number = 100, _adIntervals: number = 30) {
-        // 2.11.1 
-        const version = WeChat.GetSystemInfoSync().SDKVersion
-        if (WeChat.CompareVersion(version, '2.11.1') >= 0) {
-            let customAd = window["wx"].createCustomAd({
-                adUnitId: _adUnitId,
-                style: {
-                    left: _left,
-                    top: _top,
-                    width: _width,
-                    height: _height
-                },
-                adIntervals: _adIntervals
-            })
-
-            return customAd;
-        } else {
-            // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
-            // WeChat.ShowModal("提示", '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。');
+            // Bytedanace.ShowModal("提示", '当前版本过低，无法使用该功能，请升级到最新版本后重试。');
             return null;
         }
     }
@@ -487,7 +318,7 @@ export class WeChat {
     static PreviewImage(_imageUrl: string) {
 
         return new Promise((resolve, reject) => {
-            window["wx"].previewImage({
+            window["tt"].previewImage({
                 urls: [_imageUrl],
                 success: () => {
                     console.log("wei xin previewImage success....");
@@ -500,6 +331,7 @@ export class WeChat {
         })
 
     }
+
     /**
      * 调用震动
      * 使手机发生较短时间的振动（15 ms）。仅在 iPhone 7 / 7 Plus 以上及 Android 机型生效
@@ -507,10 +339,9 @@ export class WeChat {
      * @param {Function} _onFail       失败返回函数
      */
     static VibrateShort(_onSuccess: Function, _onFail: Function) {
-        // 1.2.0
-        const version = WeChat.GetSystemInfoSync().SDKVersion
-        if (WeChat.CompareVersion(version, '2.6.0') >= 0) {
-            window["wx"].vibrateShort({
+        const version = Bytedanace.GetSystemInfoSync().SDKVersion
+        if (Bytedanace.CompareVersion(version, '2.6.0') >= 0) {
+            window["tt"].vibrateShort({
                 success: () => {
                     // console.log("VibrateShort success");
                     if (_onSuccess) {
@@ -526,25 +357,104 @@ export class WeChat {
             });
         } else {
             // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
-            // WeChat.ShowModal("提示", '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。');
+            // Bytedanace.ShowModal("提示", '当前版本过低，无法使用该功能，请升级到最新版本后重试。');
             _onFail();
         }
 
     }
 
+    /**
+     * 游戏录屏开始
+     */
+    static GameRecorderStart(_onStart: Function = null) {
+        const version = Bytedanace.GetSystemInfoSync().SDKVersion
+        if (Bytedanace.CompareVersion(version, '1.4.1') >= 0) {
+            let systemInfo = Bytedanace.GetSystemInfoSync();
+            const screenWidth = systemInfo.screenWidth;
+            const screenHeight = systemInfo.screenHeight;
+
+            const recorder = window["tt"].getGameRecorderManager();
+            var maskInfo = recorder.getMark();
+            var x = (screenWidth - maskInfo.markWidth) / 2;
+            var y = (screenHeight - maskInfo.markHeight) / 2;
+
+            recorder.onStart((res) => {
+                console.log("录屏开始");
+                // do something;
+                if (_onStart) {
+                    _onStart();
+                }
+            });
+
+            //添加水印并且居中处理
+            recorder.start({
+                duration: 30,
+                isMarkOpen: true,
+                locLeft: x,
+                locTop: y,
+            });
+
+        } else {
+            // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
+            // Bytedanace.ShowModal("提示", '当前版本过低，无法使用该功能，请升级到最新版本后重试。');
+            return null;
+        }
+    }
+
+    /**
+     * 游戏录屏暂停
+     */
+    static GameRecorderPause(_onStart: Function = null) {
+        const version = Bytedanace.GetSystemInfoSync().SDKVersion
+        if (Bytedanace.CompareVersion(version, '1.4.1') >= 0) {
+
+        } else {
+            // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
+            // Bytedanace.ShowModal("提示", '当前版本过低，无法使用该功能，请升级到最新版本后重试。');
+            return null;
+        }
+    }
+
+    /**
+     * 游戏录屏恢复
+     */
+    static GameRecorderResume(_onStart: Function = null) {
+        const version = Bytedanace.GetSystemInfoSync().SDKVersion
+        if (Bytedanace.CompareVersion(version, '1.4.1') >= 0) {
+
+
+        } else {
+            // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
+            // Bytedanace.ShowModal("提示", '当前版本过低，无法使用该功能，请升级到最新版本后重试。');
+            return null;
+        }
+    }
+
+    /**
+     * 游戏录屏停止
+     */
+    static GameRecorderStop(_onStart: Function = null) {
+        const version = Bytedanace.GetSystemInfoSync().SDKVersion
+        if (Bytedanace.CompareVersion(version, '1.4.1') >= 0) {
+
+        } else {
+            // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
+            // Bytedanace.ShowModal("提示", '当前版本过低，无法使用该功能，请升级到最新版本后重试。');
+            return null;
+        }
+    }
 
 
     /**
-     * 创建wx音频实例
+     * 创建音频实例
      * @param {string} _audioUrl 音频地址
      * @param {number} _startTime  音频开始时间
      * @param {boolean} _loop   音频循环
      */
     static CreateInnerAudioContext(_audioUrl: string, _startTime: number = 0, _loop: boolean = false) {
-        // 1.6.0
-        const version = WeChat.GetSystemInfoSync().SDKVersion
-        if (WeChat.CompareVersion(version, '1.6.0') >= 0) {
-            const innerAudioContext = window["wx"].createInnerAudioContext();
+        const version = Bytedanace.GetSystemInfoSync().SDKVersion
+        if (Bytedanace.CompareVersion(version, '1.0.0') >= 0) {
+            const innerAudioContext = window["tt"].createInnerAudioContext();
             innerAudioContext.startTime = _startTime;
             innerAudioContext.loop = _loop;
             innerAudioContext.src = _audioUrl;
@@ -552,7 +462,7 @@ export class WeChat {
             return innerAudioContext;
         } else {
             // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
-            // WeChat.ShowModal("提示", '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。');
+            // Bytedanace.ShowModal("提示", '当前版本过低，无法使用该功能，请升级到最新版本后重试。');
             return null;
         }
     }
@@ -568,10 +478,9 @@ export class WeChat {
      * @param {function} _onFail       失败返回函数
      */
     static JumpToMiniProgram(_appid: string, _path: string, _extData: string = "", _envVersion: string = 'release', _onSuccess: Function = null, _onFail: Function = null) {
-        // 2.2.0
-        const version = WeChat.GetSystemInfoSync().SDKVersion
-        if (WeChat.CompareVersion(version, '2.2.0') >= 0) {
-            window["wx"].navigateToMiniProgram(
+        const version = Bytedanace.GetSystemInfoSync().SDKVersion
+        if (Bytedanace.CompareVersion(version, '1.33.0') >= 0) {
+            window["tt"].navigateToMiniProgram(
                 {
                     appId: _appid,
                     path: _path,
@@ -594,7 +503,7 @@ export class WeChat {
             );
         } else {
             // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
-            // WeChat.ShowModal("提示", '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。');
+            // Bytedanace.ShowModal("提示", '当前版本过低，无法使用该功能，请升级到最新版本后重试。');
             if (_onFail) {
                 _onFail();
             }
@@ -606,19 +515,19 @@ export class WeChat {
     /**
     * 发送一个请求
     * @param {string} _url  设置请求响应的URL, 例如： http://xxxx/xxx.php
-    * @param {string} _data  发送请求数据转换为字符串， 格式：pid=10003&appid=cycckhlb&appChannel=weixin
+    * @param {string} _data  发送请求数据转换为字符串， 格式：pid=10003&appid=cycckhlb&appChannel=zijie
     * 
     * @param {Function} _cbSuccess 请求成功回调函数，函数格式：success(data)
     * @param {Function} _cbFail 请求失败回调函数 ,函数格式： fail(_info)
     * 
     * @param {string} _mothed 请求方式， 'GET', 'POST'
     * @param {number} _retry 超时重连次数
-    * @param {number} _timeout 超时时间设置 (超时时间在微信配置文件里面设置，此处无效)
+    * @param {number} _timeout 超时时间设置 (超时时间在配置文件里面设置，此处无效)
     * 
     */
     static HttpRequest(_url: string, _data: string, _cbSuccess: Function, _cbFail: Function, _mothed: string = 'GET', _retry: number = 3, _timeout: number = 1000) {
 
-        window["wx"].request({
+        window["tt"].request({
             url: _url,
             data: _data,
             header: {
@@ -686,7 +595,7 @@ export class WeChat {
 
     static ShowModal(_title: string, _content: string) {
         // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
-        window["wx"].showModal({
+        window["tt"].showModal({
             title: _title,
             content: _content
         })

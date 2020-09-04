@@ -5,12 +5,13 @@ import BaseLayer from "../base/BaseLayer";
 import { BaseConfig } from "../config/BaseConfig";
 import AdvServer from "./AdvServer";
 import StatisticsServer from "./StatisticsServer";
+import { Bytedanace } from "./Bytedanace";
 
 export default class BasePlatform {
 
     private m_SystemInfo: any = null;   //系统信息
     private m_LaunchOptionsSync: any = null;   //启动信息
-
+    private m_UserInfoButton: any = null;       //授权按钮
 
     private static _instance: BasePlatform;
 
@@ -52,6 +53,19 @@ export default class BasePlatform {
         }
     }
 
+
+    /**
+     * 判断是否是字节跳动平台
+     */
+    public IsBytedanace(): boolean {
+        if (typeof window["tt"] != "undefined") {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     /**
     * 监听显示函数
     */
@@ -65,7 +79,18 @@ export default class BasePlatform {
                 //上传openid
                 // StatisticsServer.getInstance().SendOpenID();
                 //显示微信插屏
-                AdvServer.getInstance().ShowWeChatInterstitial();
+                // AdvServer.getInstance().ShowWeChatInterstitial();
+            });
+        }
+        else if (this.IsBytedanace()) {
+            Bytedanace.OnShow((res) => {
+                //显示处理
+                // StatisticsServer.getInstance().SetShowQuery(res.query);
+                console.log("bytedanaceonshow res", res);
+                //上传openid
+                // StatisticsServer.getInstance().SendOpenID();
+                //显示微信插屏
+                // AdvServer.getInstance().ShowWeChatInterstitial();
             });
         }
         else {
@@ -84,6 +109,8 @@ export default class BasePlatform {
         //     //     // GameManager.getInstance().PauseGame();
         //     // });
         // }
+        // else if (this.IsBytedanace()) {
+        // }
         // else {
         // }
     }
@@ -96,6 +123,9 @@ export default class BasePlatform {
     public TriggerGC() {
         if (this.IsWeChat()) {
             WeChat.TriggerGC();
+        }
+        else if (this.IsBytedanace()) {
+            Bytedanace.TriggerGC();
         }
         else {
         }
@@ -113,8 +143,7 @@ export default class BasePlatform {
         if (this.IsWeChat()) {
             WeChat.LoadSubpackage(_subPackageName, _onSuccess, _onFail, _onProgressUpdate);
         }
-        else {
-
+        else if (this.IsBytedanace()) {
             if (_onProgressUpdate) {
                 let res = {
                     progress: 1,
@@ -125,7 +154,18 @@ export default class BasePlatform {
             if (_onSuccess) {
                 _onSuccess("非微信平台");
             }
-
+        }
+        else {
+            if (_onProgressUpdate) {
+                let res = {
+                    progress: 1,
+                    totalBytesWritten: 100,
+                }
+                _onProgressUpdate(res);
+            }
+            if (_onSuccess) {
+                _onSuccess("非微信平台");
+            }
         }
     }
 
@@ -140,6 +180,16 @@ export default class BasePlatform {
             }
             return this.m_SystemInfo;
         }
+        else if (this.IsBytedanace()) {
+            //如果系统信息没有则重新获取
+            if (!this.m_SystemInfo) {
+                this.m_SystemInfo = Bytedanace.GetSystemInfoSync();
+            }
+            return this.m_SystemInfo;
+        }
+        else {
+            return null;
+        }
     }
 
     /**
@@ -152,6 +202,16 @@ export default class BasePlatform {
                 this.m_LaunchOptionsSync = WeChat.GetLaunchOptionsSync();
             }
             return this.m_LaunchOptionsSync;
+        }
+        else if (this.IsBytedanace()) {
+            //如果没有则重新获取
+            if (!this.m_LaunchOptionsSync) {
+                this.m_LaunchOptionsSync = Bytedanace.GetLaunchOptionsSync();
+            }
+            return this.m_LaunchOptionsSync;
+        }
+        else {
+            return null;
         }
     }
 
@@ -169,6 +229,9 @@ export default class BasePlatform {
         if (this.IsWeChat()) {
             WeChat.Authorize(_onSuccess, _onFail);
         }
+        else if (this.IsBytedanace()) {
+            Bytedanace.Authorize(_onSuccess, _onFail);
+        }
         else {
             if (_onSuccess) {
                 _onSuccess("非微信平台");
@@ -182,24 +245,57 @@ export default class BasePlatform {
      * @param {Function} _onSuccess 创建成功函数
      * @param {Function} _onFail 创建失败函数
      */
-    public CreateUserInfoButton(_btnTexture: any, _onSuccess: Function, _onFail: Function) {
+    public CreateUserInfoButton(_btnNode: cc.Node, _onSuccess: Function, _onFail: Function) {
         if (this.IsWeChat()) {
-            //设计宽
-            let viewwidth = cc.view.getFrameSize().width;
-            //设计高
-            let viewheight = cc.view.getFrameSize().height;
+            // let frameSize = cc.view.getFrameSize();
+            // let resolutionsize = cc.view.getDesignResolutionSize();
+            // let test1 = resolutionsize.width / frameSize.width;
+            // let spriteComnpont = _btnNode.getComponentInChildren(cc.Sprite);
+            // let width = _btnNode.width / test1;//_btnNode.width / (viewwidth / cc.view.getFrameSize().width);
+            // let height = _btnNode.height / test1;// _btnNode.height / (viewheight / cc.view.getFrameSize().height);
+            // let nodePos = _btnNode.position;
+            // let left = (resolutionsize.width / 2 + nodePos.x - _btnNode.width / 2) / test1;
+            // let top = (resolutionsize.height - (resolutionsize.height / 2 + nodePos.y + _btnNode.height / 2)) / test1;
+            // //获取纹理路径
+            // let imgUrl = spriteComnpont.spriteFrame.getTexture().url;
 
-            let width = _btnTexture.width / (viewwidth / cc.view.getFrameSize().width);
-            let height = _btnTexture.height / (viewheight / cc.view.getFrameSize().height);
-            let left = cc.view.getFrameSize().width / 2 - width / 2;
-            let top = cc.view.getFrameSize().height / 2;
-            // console.log("_btnTexture", _btnTexture, "width", width, "height", height, "left", left, "top", top);
-            WeChat.CreateUserInfoButton(_btnTexture.url, left, top, width, height, _onSuccess, _onFail);
+            // this.m_UserInfoButton = WeChat.CreateUserInfoButton(imgUrl, left, top, width, height);
+            // this.m_UserInfoButton.show();
+            // this.m_UserInfoButton.onTap((res) => {
+            //     console.log(res)
+            //     this.m_UserInfoButton.destroy();
+            //     this.m_UserInfoButton = null;
+            //     if (res.userInfo) {
+            //         _onSuccess(res.userInfo);
+            //     } else {
+            //         _onFail("拒绝授权");
+            //     }
+
+            // })
+        }
+        else if (this.IsBytedanace()) {
+            Bytedanace.Authorize(_onSuccess, _onFail);
         }
         else {
             if (_onSuccess) {
                 _onSuccess("非微信平台");
             }
+        }
+    }
+
+    /**
+     * 销毁授权按钮
+     */
+    public DestroyUserInfoButton() {
+        if (this.IsWeChat()) {
+            if (this.m_UserInfoButton) {
+                this.m_UserInfoButton.destroy();
+                this.m_UserInfoButton = null;
+            }
+        }
+        else if (this.IsBytedanace()) {
+        }
+        else {
         }
     }
 
@@ -211,6 +307,9 @@ export default class BasePlatform {
     public GetUserInfo(_onSuccess: Function, _onFail: Function) {
         if (this.IsWeChat()) {
             WeChat.GetUserInfo(_onSuccess, _onFail);
+        }
+        else if (this.IsBytedanace()) {
+            Bytedanace.GetUserInfo(_onSuccess, _onFail);
         }
         else {
             if (_onFail) {
@@ -228,6 +327,9 @@ export default class BasePlatform {
     public VibrateShort(_onSuccess: Function = null, _onFail: Function = null) {
         if (this.IsWeChat()) {
             WeChat.VibrateShort(_onSuccess, _onFail);
+        }
+        else if (this.IsBytedanace()) {
+            Bytedanace.VibrateShort(_onSuccess, _onFail);
         }
         else {
             if (_onSuccess) {
@@ -248,13 +350,41 @@ export default class BasePlatform {
             // console.log("resimageurl", resimageurl);
             // let url = assets
             //随机生成分享语和图片
-            WeChat.InitWxShare(() => {
-                let resimageurl = BaseConfig.NetConfig.NetRoot + BaseConfig.NetConfig.NetRes + "share/img_share_1.jpg";
-                return {
-                    title: "[有好友@你]  快上车，老司机教你花式停车！",
-                    imageUrl: resimageurl
-                }
-            });
+            // WeChat.InitWxShare(() => {
+            //     let testtitle = "";
+            //     let rand = Utils.RandNum(0, 1);
+            //     if (rand) {
+            //         testtitle = BaseConfig.ShareInfo.Title_1;
+            //     }
+            //     else {
+            //         testtitle = BaseConfig.ShareInfo.Title_2;
+            //     }
+
+            //     let resimageurl = BaseConfig.NetConfig.NetRoot + BaseConfig.NetConfig.NetRes + BaseConfig.ShareInfo.Img_1;
+            //     return {
+            //         title: testtitle,
+            //         imageUrl: resimageurl
+            //     }
+            // });
+        }
+        else if (this.IsBytedanace()) {
+            //随机生成分享语和图片
+            // Bytedanace.InitWxShare(() => {
+            //     let testtitle = "";
+            //     let rand = Utils.RandNum(0, 1);
+            //     if (rand) {
+            //         testtitle = BaseConfig.ShareInfo.Title_1;
+            //     }
+            //     else {
+            //         testtitle = BaseConfig.ShareInfo.Title_2;
+            //     }
+
+            //     let resimageurl = BaseConfig.NetConfig.NetRoot + BaseConfig.NetConfig.NetRes + BaseConfig.ShareInfo.Img_1;
+            //     return {
+            //         title: testtitle,
+            //         imageUrl: resimageurl
+            //     }
+            // });
         }
         else {
         }
@@ -269,7 +399,23 @@ export default class BasePlatform {
      */
     public ShareMessage(_title: string = "", _imageUrl: string = null) {
         if (this.IsWeChat()) {
-            WeChat.ShareAppMessage(_title, _imageUrl);
+            // if (!_title) {
+            //     let rand = Utils.RandNum(0, 1);
+            //     if (rand) {
+            //         _title = BaseConfig.ShareInfo.Title_1;
+            //     }
+            //     else {
+            //         _title = BaseConfig.ShareInfo.Title_2;
+            //     }
+            // }
+            // if (!_imageUrl) {
+            //     _imageUrl = BaseConfig.NetConfig.NetRoot + BaseConfig.NetConfig.NetRes + BaseConfig.ShareInfo.Img_1;
+            // }
+
+            // WeChat.ShareAppMessage(_title, _imageUrl);
+        }
+        else if (this.IsBytedanace()) {
+            Bytedanace.ShareAppMessage(_title, _imageUrl);
         }
         else {
         }
@@ -303,6 +449,9 @@ export default class BasePlatform {
             // else { //默认全屏
             //     return WeChat.RenderTexture(0, 0, canvas.width, canvas.height, canvas.width, canvas.height);
             // }
+        }
+        else if (this.IsBytedanace()) {
+
         }
         else {
             // let node = new cc.Node();
@@ -391,6 +540,9 @@ export default class BasePlatform {
             // console.log("kvlist", kvlist);
             // WeChat.UploadUserCloudData(kvlist);
         }
+        else if (this.IsBytedanace()) {
+
+        }
         else {
             console.log('非微信平台');
         }
@@ -421,6 +573,9 @@ export default class BasePlatform {
             // }
 
             // WeChat.OpenDataContextPostMessage(BaseConfig.OpenDataMessageData);
+        }
+        else if (this.IsBytedanace()) {
+
         }
         else {
             console.log('非微信平台');
