@@ -70,7 +70,6 @@ export default class AdvServer {
         this.InitRewardedVideoAd();
         this.InitGridAd();
         this.InitCustomAd();
-
     }
 
     /**

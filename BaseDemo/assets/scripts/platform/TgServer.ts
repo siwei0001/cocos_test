@@ -4,9 +4,113 @@
  * 
  */
 
+import BasePlatform from "./BasePlatform";
+import { BaseConfig } from "../config/BaseConfig";
+import Http, { HttpReqType } from "../utils/Http";
+
+/**
+* 微信配置
+
+*/
+export var WeChatConfig = {
+    GameID: "20200903142325984927",                  //游戏id
+    GameConfigVersion: "20200907171958728636",       //配置版本
+    GameAdvVersion: "20200903143758823677",          //广告配置版本
+}
+
+/**
+* 头条配置
+*/
+export var BytedanceConfig = {
+    GameID: "",                  //游戏id
+    GameConfigVersion: "",       //配置版本
+    GameAdvVersion: "",          //广告配置版本
+}
+interface PlatformConfig {
+    GameID: string,
+    GameConfigVersion: string,
+    GameAdvVersion: string,
+}
+
+
+/**
+ * 配置接口
+ * 
+ * 审核开关        game_is_review
+ * 主页全屏1        game_main_fullscreen_1
+ * 游戏页面全屏1    game_gameplay_fullscreen_1
+ * 结算页面全屏1     game_result_fullscreen_1
+ * 主页全屏2         game_main_fullscreen_2
+ * 游戏页面全屏2     game_gameplay_fullscreen_2
+ * 结算页面全屏2     game_result_fullscreen_2
+ * 主页插屏         game_main_interstitial
+ * 
+ * 全屏1随机跳转         game_jump_rand_fullscreen_1
+ * 全屏2随机跳转         game_jump_rand_fullscreen_2
+ * 
+ * 全屏banner          game_banner_fullscreen
+ * 随机跳转到自研游戏      game_jump_zjkj
+ * 
+ * 开始金蛋策略开关  game_egg_start
+ * 结束金蛋策略开关  game_egg_end
+ * 开始视频开关      game_video_start
+ * 结束视频开关      game_video_end
+ * 
+ */
+interface TgConfig {
+    game_is_review?: number,
+    game_main_fullscreen_1?: number,
+    game_gameplay_fullscreen_1?: number,
+    game_result_fullscreen_1?: number,
+    game_main_fullscreen_2?: number,
+    game_gameplay_fullscreen_2?: number,
+    game_result_fullscreen_2?: number,
+    game_main_interstitial?: number,
+    game_jump_rand_fullscreen_1?: number,
+    game_jump_rand_fullscreen_2?: number,
+    game_banner_fullscreen?: number,
+    game_jump_zjkj?: number,
+    game_egg_start?: number,
+    game_egg_end?: number,
+    game_video_start?: number,
+    game_video_end?: number,
+
+}
+/**
+ * 推广数据配置
+ *  appid?: 游戏的appid
+ *  name?: 游戏的名字
+ *  status?: 游戏状态
+ *  path?: 游戏传入路径
+ *  icon?: 游戏icon
+ *  ggz_name?: 游戏公司名字
+ *  channel?: 游戏渠道
+ *  desc?: 游戏描述
+ *  descTg?: 游戏交叉推广描述
+ *  price?: 游戏交叉推广单价
+ *  time_str?: 游戏交叉推广时间戳
+ */
+interface TgAdvConfig {
+    appid?: string,
+    name?: string,
+    status?: string,
+    path?: string,
+    icon?: string,
+    ggz_name?: string,
+    channel?: string,
+    desc?: string,
+    descTg?: string,
+    price?: string,
+    time_str?: string,
+}
+
 export default class TgServer {
 
     private static _instance: TgServer;
+
+    public _TgConfig: TgConfig = {};
+
+    public _TgAdvConfig: TgAdvConfig = {};
 
     /**
      * 构造函数
@@ -17,9 +121,77 @@ export default class TgServer {
     public static getInstance(): TgServer {
         // 如果 instance 是一个实例 直接返回，  如果不是 实例化后返回
         this._instance || (this._instance = new TgServer())
-        return this._instance
+        return this._instance;
     }
 
-    
+    /**
+     * 初始化tgServer
+     */
+    InitTgServer(_onSuccess: Function, _onFail: Function) {
+        //获取配置
+        // Symbol[""]
+        //
+        this.LoadConfig(_onSuccess, _onFail);
+    }
+
+    /**
+     * 加载配置
+     */
+    LoadConfig(_onSuccess: Function, _onFail: Function) {
+        // private m_AdvConfigUrl = "tgsdk_server/api/game/config";
+        let url = BaseConfig.NetConfig.NetRoot + "/tgsdk_server/api/game/config/";
+        if (BasePlatform.getInstance().IsWeChat()) {
+            //微信
+            url = url + WeChatConfig.GameID + "/" + WeChatConfig.GameConfigVersion;
+        }
+        else if (BasePlatform.getInstance().IsBytedanace()) {
+            //字节跳动
+            url = url + BytedanceConfig.GameID + "/" + BytedanceConfig.GameConfigVersion;
+        }
+        else {
+            url = url + WeChatConfig.GameID + "/" + WeChatConfig.GameConfigVersion;
+        }
+
+        //请求端口
+        let http = new Http();
+        http.SetReqType(HttpReqType.GET);
+        http.Request(url, (data) => {
+            console.log("LoadConfig data", data);
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    console.log("LoadConfig data key", key);
+                    const element = data[key];
+                    this._TgConfig[element["key"]] = element["value"];
+                }
+            }
+            console.log("LoadConfig this._TgConfig", this._TgConfig);
+
+            if (_onSuccess) {
+                _onSuccess();
+            }
+
+        }, (err) => {
+            if (_onFail) {
+                _onFail("初始化失败 err" + err);
+            }
+        })
+    }
+
+    /**
+     * 加载数据
+     */
+    LoadData(_onSuccess: Function, _onFail: Function) {
+        // private m_AdvConfigUrl = "tgsdk_server/api/game/config";
+
+    }
+
+    /**
+     * 加载配置
+     */
+    GetConfig(_onSuccess: Function = null, _onFail: Function = null) {
+
+        // private m_AdvConfigUrl = "tgsdk_server/api/game/config";
+
+    }
 
 }

@@ -7,6 +7,7 @@
 
 import MenuManage, { BaseMenu } from "../manage/MenuManage";
 import AdvServer from "../platform/AdvServer";
+import TgServer from "../platform/TgServer";
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,6 +21,11 @@ export default class MainScene extends cc.Component {
     start() {
         AdvServer.getInstance().InitAdvServer();
         MenuManage.getInstance().ShowMenu(BaseMenu.MainMenu);
+        TgServer.getInstance().InitTgServer(() => {
+
+        }, () => {
+
+        });
     }
 
     // update (dt) {}
