@@ -6,19 +6,27 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import BaseLayer from "../base/BaseLayer";
+import AdvServer from "../platform/AdvServer";
+import MenuManage, { BaseMenu } from "../manage/MenuManage";
 
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class MainMenu extends cc.Component {
-
-    // LIFE-CYCLE CALLBACKS:
+export default class MainMenu extends BaseLayer {
 
     // onLoad () {}
 
-    start () {
+    start() {
         // this.node.on()
+
     }
 
     // update (dt) {}
+
+    OnClick(event) {
+        console.log("OnClick event", event);
+        if (event.target.name == "Btn_ADMenu") {
+            MenuManage.getInstance().ShowMenu(BaseMenu.ADMenu);
+        }
+    }
 }

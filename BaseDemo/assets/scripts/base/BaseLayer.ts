@@ -14,8 +14,8 @@ export class BaseEventHandler {
 
     }
 
-    clear(){
-        
+    clear() {
+
     }
 }
 
@@ -79,7 +79,7 @@ export default class BaseLayer extends cc.Component {
      * 按钮点击事件
      * @param {cc.Touch} touch 
      */
-    OnClick(touch) {
+    OnClick(touch: cc.EventTarget) {
         //实现方法 示例
 
     }

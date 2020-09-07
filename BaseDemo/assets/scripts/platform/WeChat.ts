@@ -457,7 +457,7 @@ export class WeChat {
     * @param {number} _height 高度  默认100
     * @param {number} _adIntervals 广告刷新间隔 默认30
     */
-    static CreateCustomAd(_adUnitId: string, _left: number = 0, _top: number = 0, _width: number = 300, _height: number = 100, _adIntervals: number = 30) {
+    static CreateCustomAd(_adUnitId: string, _left: number = 0, _top: number = 0, _fixed: boolean = false, _adIntervals: number = 30) {
         // 2.11.1 
         const version = WeChat.GetSystemInfoSync().SDKVersion
         if (WeChat.CompareVersion(version, '2.11.1') >= 0) {
@@ -466,8 +466,7 @@ export class WeChat {
                 style: {
                     left: _left,
                     top: _top,
-                    width: _width,
-                    height: _height
+                    fixed: _fixed
                 },
                 adIntervals: _adIntervals
             })

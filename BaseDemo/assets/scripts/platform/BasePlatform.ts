@@ -1,10 +1,5 @@
 import { WeChat } from "./WeChat";
-import Utils from "../utils/Utils";
-import DataManage from "../manage/DataManage";
-import BaseLayer from "../base/BaseLayer";
 import { BaseConfig } from "../config/BaseConfig";
-import AdvServer from "./AdvServer";
-import StatisticsServer from "./StatisticsServer";
 import { Bytedanace } from "./Bytedanace";
 
 export default class BasePlatform {
@@ -74,7 +69,6 @@ export default class BasePlatform {
         if (this.IsWeChat()) {
             WeChat.OnShow((res) => {
                 //显示处理
-                StatisticsServer.getInstance().SetShowQuery(res.query);
                 console.log("wxonshow res", res);
                 //上传openid
                 // StatisticsServer.getInstance().SendOpenID();

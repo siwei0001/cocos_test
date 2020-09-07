@@ -5,23 +5,21 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-const {ccclass, property} = cc._decorator;
+import MenuManage, { BaseMenu } from "../manage/MenuManage";
+import AdvServer from "../platform/AdvServer";
+
+const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
-
-    @property(cc.Label)
-    label: cc.Label = null;
-
-    @property
-    text: string = 'hello';
+export default class MainScene extends cc.Component {
 
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
 
-    start () {
-
+    start() {
+        AdvServer.getInstance().InitAdvServer();
+        MenuManage.getInstance().ShowMenu(BaseMenu.MainMenu);
     }
 
     // update (dt) {}

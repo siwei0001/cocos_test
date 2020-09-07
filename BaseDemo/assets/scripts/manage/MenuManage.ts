@@ -2,13 +2,14 @@ import Utils from "../utils/Utils";
 import BaseLayer from "../base/BaseLayer";
 
 export var BaseMenu = {
-    GameLoadingMenu: 'data/prefabs/GameLoadingMenu',
-    MainMenu: 'data/prefabs/MainMenu',
-    ResultMenu: 'data/prefabs/ResultMenu',
-    CarLibaryMenu: 'data/prefabs/CarLibaryMenu',
-    TipsMenu: 'data/prefabs/TipsMenu',
-    GetCoinsMenu: 'data/prefabs/GetCoinsMenu',
-    GuideMenu: 'data/prefabs/GuideMenu',
+    GameLoadingMenu: 'prefabs/GameLoadingMenu',
+    MainMenu: 'prefabs/MainMenu',
+    ResultMenu: 'prefabs/ResultMenu',
+    CarLibaryMenu: 'prefabs/CarLibaryMenu',
+    TipsMenu: 'prefabs/TipsMenu',
+    GetCoinsMenu: 'prefabs/GetCoinsMenu',
+    GuideMenu: 'prefabs/GuideMenu',
+    ADMenu: 'prefabs/ADMenu',
 }
 
 export default class MenuManage {
