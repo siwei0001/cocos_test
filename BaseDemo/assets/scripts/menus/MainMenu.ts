@@ -6,7 +6,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import BaseLayer from "../base/BaseLayer";
-import AdvServer from "../platform/AdvServer";
+import BaseAdv from "../platform/BaseAdv";
 import MenuManage, { BaseMenu } from "../manage/MenuManage";
 
 const { ccclass, property } = cc._decorator;
@@ -27,6 +27,9 @@ export default class MainMenu extends BaseLayer {
         console.log("OnClick event", event);
         if (event.target.name == "Btn_ADMenu") {
             MenuManage.getInstance().ShowMenu(BaseMenu.ADMenu);
+        }
+        else if(event.target.name == "Btn_TgPromote"){
+            MenuManage.getInstance().ShowMenu(BaseMenu.TgPromoteMenu);
         }
     }
 }

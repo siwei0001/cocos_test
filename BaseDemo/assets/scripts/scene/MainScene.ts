@@ -6,7 +6,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import MenuManage, { BaseMenu } from "../manage/MenuManage";
-import AdvServer from "../platform/AdvServer";
+import BaseAdv from "../platform/BaseAdv";
 import TgServer from "../platform/TgServer";
 
 const { ccclass, property } = cc._decorator;
@@ -19,7 +19,7 @@ export default class MainScene extends cc.Component {
     // onLoad () {}
 
     start() {
-        AdvServer.getInstance().InitAdvServer();
+        BaseAdv.getInstance().InitBaseAdv();
         MenuManage.getInstance().ShowMenu(BaseMenu.MainMenu);
         TgServer.getInstance().InitTgServer(() => {
 

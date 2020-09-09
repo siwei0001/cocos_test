@@ -36,9 +36,9 @@ export var BytedanceAdvConfig = {
     CustomAdUnitId: "",           //原生广告id
 }
 
-export default class AdvServer {
+export default class BaseAdv {
 
-    private static _instance: AdvServer;
+    private static _instance: BaseAdv;
 
     private m_Debug: boolean = false;    //日志输出开关
 
@@ -54,16 +54,16 @@ export default class AdvServer {
     constructor() {
     }
 
-    public static getInstance(): AdvServer {
+    public static getInstance(): BaseAdv {
         // 如果 instance 是一个实例 直接返回，  如果不是 实例化后返回
-        this._instance || (this._instance = new AdvServer())
+        this._instance || (this._instance = new BaseAdv())
         return this._instance
     }
 
     /**
      * 初始化广告服务
      */
-    public InitAdvServer(_onSuccess: Function = null, _onFail: Function = null) {
+    public InitBaseAdv(_onSuccess: Function = null, _onFail: Function = null) {
         //初始化banner
         this.InitBanner();
         this.InitInterstitialAd();
@@ -108,7 +108,7 @@ export default class AdvServer {
            width: _width,
            height: _height
      */
-    SetBannerStye<T extends { left: number, top: number, width: number, height: number }>(_type: T) {
+    SetBannerStye<T extends { left?: number, top?: number, width?: number, height?: number }>(_type: T) {
         if (this.m_BannerAd) {
             this.m_BannerAd.style.left = _type.left;
             this.m_BannerAd.style.top = _type.top;
@@ -287,7 +287,7 @@ export default class AdvServer {
             height: number
             gridCount: number
         */
-    SetGridAdStye<T extends { left: number, top: number, width: number, height: number, gridCount: number }>(_option: T) {
+    SetGridAdStye<T extends { left?: number, top?: number, width?: number, height?: number, gridCount?: number }>(_option: T) {
         if (this.m_GridAd) {
             this.m_GridAd.style.left = _option.left;
             this.m_GridAd.style.top = _option.top;

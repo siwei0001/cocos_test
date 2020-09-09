@@ -73,7 +73,7 @@ export default class BasePlatform {
                 //上传openid
                 // StatisticsServer.getInstance().SendOpenID();
                 //显示微信插屏
-                // AdvServer.getInstance().ShowWeChatInterstitial();
+                // BaseAdv.getInstance().ShowWeChatInterstitial();
             });
         }
         else if (this.IsBytedanace()) {
@@ -84,7 +84,7 @@ export default class BasePlatform {
                 //上传openid
                 // StatisticsServer.getInstance().SendOpenID();
                 //显示微信插屏
-                // AdvServer.getInstance().ShowWeChatInterstitial();
+                // BaseAdv.getInstance().ShowWeChatInterstitial();
             });
         }
         else {

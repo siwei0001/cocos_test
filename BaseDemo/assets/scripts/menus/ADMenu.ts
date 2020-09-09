@@ -6,7 +6,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import BaseLayer from "../base/BaseLayer";
-import AdvServer from "../platform/AdvServer";
+import BaseAdv from "../platform/BaseAdv";
 import MenuManage, { BaseMenu } from "../manage/MenuManage";
 
 const { ccclass, property } = cc._decorator;
@@ -35,19 +35,19 @@ export default class ADMenu extends BaseLayer {
             MenuManage.getInstance().RmoveMenu(BaseMenu.ADMenu)
         }
         else if (event.target.name == "Btn_ShowBanner") {
-            AdvServer.getInstance().ShowBanner();
+            BaseAdv.getInstance().ShowBanner();
         }
         else if (event.target.name == "Btn_MoveBanner") {
-            AdvServer.getInstance().SetBannerStye({ left: 0, top: 300, width: 300, height: 100 });
+            BaseAdv.getInstance().SetBannerStye({ left: 0, top: 300, width: 300, height: 100 });
         }
         else if (event.target.name == "Btn_HideBanner") {
-            AdvServer.getInstance().HideBanner();
+            BaseAdv.getInstance().HideBanner();
         }
         else if (event.target.name == "Btn_ShowInterstitialAd") {
-            AdvServer.getInstance().ShowInterstitialAd();
+            BaseAdv.getInstance().ShowInterstitialAd();
         }
         else if (event.target.name == "Btn_ShowRewardedVideoAd") {
-            AdvServer.getInstance().ShowRewardedVideoAd(() => {
+            BaseAdv.getInstance().ShowRewardedVideoAd(() => {
                 //视频观看完了
                 this.Label_Video.string = "视频看完了，发放奖励";
             }, () => {
@@ -56,19 +56,19 @@ export default class ADMenu extends BaseLayer {
             });
         }
         else if (event.target.name == "Btn_ShowGrid") {
-            AdvServer.getInstance().ShowGridAd();
+            BaseAdv.getInstance().ShowGridAd();
         }
         else if (event.target.name == "Btn_MoveGrid") {
-            AdvServer.getInstance().SetGridAdStye({ left: 0, top: 300, width: 300, height: 100, gridCount: 5 });
+            BaseAdv.getInstance().SetGridAdStye({ left: 0, top: 300, width: 300, height: 100, gridCount: 5 });
         }
         else if (event.target.name == "Btn_HideGrid") {
-            AdvServer.getInstance().HideGridAd();
+            BaseAdv.getInstance().HideGridAd();
         }
         else if (event.target.name == "Btn_ShowCustomer") {
-            AdvServer.getInstance().ShowCustomAd();
+            BaseAdv.getInstance().ShowCustomAd();
         }
         else if (event.target.name == "Btn_HideCustomer") {
-            AdvServer.getInstance().HideCustomAd();
+            BaseAdv.getInstance().HideCustomAd();
         }
     }
 }

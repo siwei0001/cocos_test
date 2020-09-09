@@ -10,6 +10,7 @@ export var BaseMenu = {
     GetCoinsMenu: 'prefabs/GetCoinsMenu',
     GuideMenu: 'prefabs/GuideMenu',
     ADMenu: 'prefabs/ADMenu',
+    TgPromoteMenu: 'prefabs/TgPromoteMenu',
 }
 
 export default class MenuManage {

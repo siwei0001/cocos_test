@@ -110,7 +110,7 @@ export default class TgServer {
 
     public _TgConfig: TgConfig = {};
 
-    public _TgAdvConfig: TgAdvConfig = {};
+    public _TgAdvConfig: Array<TgAdvConfig> = [];
 
     /**
      * 构造函数
@@ -138,60 +138,72 @@ export default class TgServer {
      * 加载配置
      */
     LoadConfig(_onSuccess: Function, _onFail: Function) {
+
         // private m_AdvConfigUrl = "tgsdk_server/api/game/config";
-        let url = BaseConfig.NetConfig.NetRoot + "/tgsdk_server/api/game/config/";
+        let configUrl = "";
+        let dataUrl = "";
+
         if (BasePlatform.getInstance().IsWeChat()) {
             //微信
-            url = url + WeChatConfig.GameID + "/" + WeChatConfig.GameConfigVersion;
+            configUrl = BaseConfig.NetConfig.NetRoot + "/tgsdk_server/api/game/config/" + WeChatConfig.GameID + "/" + WeChatConfig.GameConfigVersion;
+            dataUrl = BaseConfig.NetConfig.NetRoot + "/tgsdk_server/api/game/tg/" + WeChatConfig.GameID + "/" + WeChatConfig.GameAdvVersion;
         }
         else if (BasePlatform.getInstance().IsBytedanace()) {
             //字节跳动
-            url = url + BytedanceConfig.GameID + "/" + BytedanceConfig.GameConfigVersion;
+            configUrl = BaseConfig.NetConfig.NetRoot + "/tgsdk_server/api/game/config/" + BytedanceConfig.GameID + "/" + BytedanceConfig.GameConfigVersion;
         }
         else {
-            url = url + WeChatConfig.GameID + "/" + WeChatConfig.GameConfigVersion;
+            configUrl = BaseConfig.NetConfig.NetRoot + "/tgsdk_server/api/game/config/" + WeChatConfig.GameID + "/" + WeChatConfig.GameConfigVersion;
+            dataUrl = BaseConfig.NetConfig.NetRoot + "/tgsdk_server/api/game/tg/" + WeChatConfig.GameID + "/" + WeChatConfig.GameAdvVersion;
         }
 
-        //请求端口
-        let http = new Http();
-        http.SetReqType(HttpReqType.GET);
-        http.Request(url, (data) => {
-            console.log("LoadConfig data", data);
-            for (const key in data) {
-                if (data.hasOwnProperty(key)) {
-                    console.log("LoadConfig data key", key);
-                    const element = data[key];
-                    this._TgConfig[element["key"]] = element["value"];
+        //请求配置
+        if (configUrl) {
+            let http = new Http();
+            http.SetReqType(HttpReqType.GET);
+            http.Request(configUrl, (data) => {
+                console.log("LoadConfig config data", data);
+                for (const key in data) {
+                    if (data.hasOwnProperty(key)) {
+                        console.log("LoadConfig data key", key);
+                        const element = data[key];
+                        this._TgConfig[element["key"]] = element["value"];
+                    }
                 }
-            }
-            console.log("LoadConfig this._TgConfig", this._TgConfig);
 
-            if (_onSuccess) {
-                _onSuccess();
-            }
+                console.log("LoadConfig this._TgConfig", this._TgConfig);
 
-        }, (err) => {
-            if (_onFail) {
-                _onFail("初始化失败 err" + err);
-            }
-        })
-    }
+                if (_onSuccess) {
+                    _onSuccess();
+                }
+            }, (err) => {
+                if (_onFail) {
+                    _onFail("初始化失败 err" + err);
+                }
+            })
+        }
 
-    /**
-     * 加载数据
-     */
-    LoadData(_onSuccess: Function, _onFail: Function) {
-        // private m_AdvConfigUrl = "tgsdk_server/api/game/config";
-
-    }
-
-    /**
-     * 加载配置
-     */
-    GetConfig(_onSuccess: Function = null, _onFail: Function = null) {
-
-        // private m_AdvConfigUrl = "tgsdk_server/api/game/config";
-
+        //请求数据
+        if (dataUrl) {
+            let http = new Http();
+            http.SetReqType(HttpReqType.GET);
+            http.Request(dataUrl, (data) => {
+                console.log("LoadConfig adv data", data);
+                for (const key in data) {
+                    if (data.hasOwnProperty(key)) {
+                        console.log("LoadConfig adv data key", key);
+                        if (data.hasOwnProperty(key)) {
+                            const advData = data[key];
+                            if (advData["status"] == "上线") {
+                                this._TgAdvConfig.push(advData);
+                            }
+                        }
+                    }
+                }
+                console.log("LoadConfig this._TgAdvConfig", this._TgAdvConfig);
+            }, (err) => {
+            })
+        }
     }
 
 }

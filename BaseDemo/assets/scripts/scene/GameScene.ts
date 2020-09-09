@@ -5,7 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import AdvServer from "../platform/AdvServer";
+import BaseAdv from "../platform/BaseAdv";
 
 const {ccclass, property} = cc._decorator;
 
@@ -24,7 +24,7 @@ export default class NewClass extends cc.Component {
 
     start () {
         // let left = 0;
-        // AdvServer.getInstance().SetBannerStye(left)
+        // BaseAdv.getInstance().SetBannerStye(left)
     }
 
     // update (dt) {}
