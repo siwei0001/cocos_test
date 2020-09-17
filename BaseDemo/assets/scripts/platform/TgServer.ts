@@ -7,17 +7,16 @@
 import BasePlatform from "./BasePlatform";
 import { BaseConfig } from "../config/BaseConfig";
 import Http, { HttpReqType } from "../utils/Http";
+import Utils from "../utils/Utils";
 
 /**
 * 微信配置
-
 */
 export var WeChatConfig = {
     GameID: "20200903142325984927",                  //游戏id
     GameConfigVersion: "20200907171958728636",       //配置版本
     GameAdvVersion: "20200903143758823677",          //广告配置版本
 }
-
 /**
 * 头条配置
 */
@@ -31,7 +30,6 @@ interface PlatformConfig {
     GameConfigVersion: string,
     GameAdvVersion: string,
 }
-
 
 /**
  * 配置接口
@@ -76,6 +74,7 @@ interface TgConfig {
     game_video_end?: number,
 
 }
+
 /**
  * 推广数据配置
  *  appid?: 游戏的appid
@@ -108,9 +107,15 @@ export default class TgServer {
 
     private static _instance: TgServer;
 
-    public _TgConfig: TgConfig = {};
+    private _TgConfig: TgConfig = {};
+    public set TgConfig(_tgconfig: TgConfig) {
+        // this._TgConfig = _tgconfig;
+    }
+    public get TgConfig(): TgConfig {
+        return this._TgConfig;
+    }
 
-    public _TgAdvConfig: Array<TgAdvConfig> = [];
+    private _TgAdvConfig: Array<TgAdvConfig> = [];
 
     /**
      * 构造函数
@@ -162,16 +167,16 @@ export default class TgServer {
             let http = new Http();
             http.SetReqType(HttpReqType.GET);
             http.Request(configUrl, (data) => {
-                console.log("LoadConfig config data", data);
+                // console.log("LoadConfig config data", data);
                 for (const key in data) {
                     if (data.hasOwnProperty(key)) {
-                        console.log("LoadConfig data key", key);
+                        // console.log("LoadConfig data key", key);
                         const element = data[key];
                         this._TgConfig[element["key"]] = element["value"];
                     }
                 }
 
-                console.log("LoadConfig this._TgConfig", this._TgConfig);
+                // console.log("LoadConfig this._TgConfig", this._TgConfig);
 
                 if (_onSuccess) {
                     _onSuccess();
@@ -188,10 +193,10 @@ export default class TgServer {
             let http = new Http();
             http.SetReqType(HttpReqType.GET);
             http.Request(dataUrl, (data) => {
-                console.log("LoadConfig adv data", data);
+                // console.log("LoadConfig adv data", data);
                 for (const key in data) {
                     if (data.hasOwnProperty(key)) {
-                        console.log("LoadConfig adv data key", key);
+                        // console.log("LoadConfig adv data key", key);
                         if (data.hasOwnProperty(key)) {
                             const advData = data[key];
                             if (advData["status"] == "上线") {
@@ -200,10 +205,62 @@ export default class TgServer {
                         }
                     }
                 }
-                console.log("LoadConfig this._TgAdvConfig", this._TgAdvConfig);
+                // console.log("LoadConfig this._TgAdvConfig", this._TgAdvConfig);
             }, (err) => {
             })
         }
     }
+
+    //返回广告数据
+    GetTgAdvData(advNum?: number, start?: number, rand?: boolean): Array<TgAdvConfig> {
+        let tempList = [];
+
+        let tempDataList = [...this._TgAdvConfig]//Utils.CloneObj(this._TgAdvConfig);
+        //判断是否有广告数据
+        if (tempDataList.length > 0) {
+
+            //判断开始位置是否超出数据长度
+            if (start > tempDataList.length - 1) {
+                start = 0;
+            }
+
+            //根据开始位置筛选数据
+            let tgBarData = tempDataList.slice(start, tempDataList.length);
+
+            if (advNum == 0) {
+                //如果传入的数量为0则表示从开始位置取出全部的数据
+                advNum = tgBarData.length;
+            }
+
+            //随机
+            if (rand) {
+                for (let index = 0; index < advNum; index++) {
+                    if (tgBarData.length > 0) {
+                        let randindex = Utils.RandNum(0, tgBarData.length - 1);
+                        tempList.push(tgBarData[randindex])
+                        tgBarData.splice(randindex, 1);
+                    }
+                }
+            }
+            else {
+                for (let index = 0; index < advNum; index++) {
+                    if (tgBarData.length - index > 0) {
+                        tempList.push(tgBarData[index])
+                    }
+                }
+            }
+        }
+
+        console.log("GetTgAdvData, this._TgAdvConfig",this._TgAdvConfig);
+
+        console.log("GetTgAdvData, tempDataList",tempDataList);
+
+        console.log("GetTgAdvData, tempList",tempList);
+
+        return tempList;
+    }
+    //返回自研游戏广告数据
+
+    //
 
 }

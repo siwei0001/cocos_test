@@ -1,4 +1,7 @@
 import { WeChat } from "./WeChat";
+import Utils from "../utils/Utils";
+import DataManage from "../manage/DataManage";
+import BaseLayer from "../base/BaseLayer";
 import { BaseConfig } from "../config/BaseConfig";
 import { Bytedanace } from "./Bytedanace";
 
@@ -7,6 +10,7 @@ export default class BasePlatform {
     private m_SystemInfo: any = null;   //系统信息
     private m_LaunchOptionsSync: any = null;   //启动信息
     private m_UserInfoButton: any = null;       //授权按钮
+    private m_RecorderVideoUrl: string = "";
 
     private static _instance: BasePlatform;
 
@@ -40,7 +44,7 @@ export default class BasePlatform {
      * 判断是否是微信平台
      */
     public IsWeChat(): boolean {
-        if (typeof window["wx"] != "undefined") {
+        if (cc.sys.platform == cc.sys.WECHAT_GAME) {
             return true;
         }
         else {
@@ -53,7 +57,7 @@ export default class BasePlatform {
      * 判断是否是字节跳动平台
      */
     public IsBytedanace(): boolean {
-        if (typeof window["tt"] != "undefined") {
+        if (cc.sys.platform == cc.sys.BYTEDANCE_GAME) {
             return true;
         }
         else {
@@ -73,7 +77,7 @@ export default class BasePlatform {
                 //上传openid
                 // StatisticsServer.getInstance().SendOpenID();
                 //显示微信插屏
-                // BaseAdv.getInstance().ShowWeChatInterstitial();
+                // AdvServer.getInstance().ShowWeChatInterstitial();
             });
         }
         else if (this.IsBytedanace()) {
@@ -84,7 +88,7 @@ export default class BasePlatform {
                 //上传openid
                 // StatisticsServer.getInstance().SendOpenID();
                 //显示微信插屏
-                // BaseAdv.getInstance().ShowWeChatInterstitial();
+                // AdvServer.getInstance().ShowWeChatInterstitial();
             });
         }
         else {
@@ -241,17 +245,29 @@ export default class BasePlatform {
      */
     public CreateUserInfoButton(_btnNode: cc.Node, _onSuccess: Function, _onFail: Function) {
         if (this.IsWeChat()) {
-            // let frameSize = cc.view.getFrameSize();
-            // let resolutionsize = cc.view.getDesignResolutionSize();
-            // let test1 = resolutionsize.width / frameSize.width;
-            // let spriteComnpont = _btnNode.getComponentInChildren(cc.Sprite);
-            // let width = _btnNode.width / test1;//_btnNode.width / (viewwidth / cc.view.getFrameSize().width);
-            // let height = _btnNode.height / test1;// _btnNode.height / (viewheight / cc.view.getFrameSize().height);
-            // let nodePos = _btnNode.position;
-            // let left = (resolutionsize.width / 2 + nodePos.x - _btnNode.width / 2) / test1;
-            // let top = (resolutionsize.height - (resolutionsize.height / 2 + nodePos.y + _btnNode.height / 2)) / test1;
-            // //获取纹理路径
-            // let imgUrl = spriteComnpont.spriteFrame.getTexture().url;
+            let frameSize = cc.view.getFrameSize();
+            let resolutionsize = cc.view.getDesignResolutionSize();
+            let test1 = resolutionsize.width / frameSize.width;
+            let test2 = resolutionsize.height / frameSize.height;
+
+            let spriteComnpont = _btnNode.getComponentInChildren(cc.Sprite);
+            let width = _btnNode.width / test1;//_btnNode.width / (viewwidth / cc.view.getFrameSize().width);
+            let height = _btnNode.height / test1;// _btnNode.height / (viewheight / cc.view.getFrameSize().height);
+            let nodePos = _btnNode.position;
+
+            // cc.winSize.width
+            let left = (resolutionsize.width / 2 + nodePos.x - _btnNode.width / 2) / test1;
+            // let top = (resolutionsize.height - (resolutionsize.height / 2 + nodePos.y + _btnNode.height / 2)) / test2;
+            let top = 0;
+            if (nodePos.y > 0) {
+                top = (nodePos.y - _btnNode.height / 2) / cc.winSize.height * frameSize.height //(resolutionsize.height - (resolutionsize.height / 2 + nodePos.y + _btnNode.height / 2)) / test2;
+            }
+            else {
+                top = Math.abs(nodePos.y + _btnNode.height / 2 - cc.winSize.height / 2) / cc.winSize.height * frameSize.height //(resolutionsize.height - (resolutionsize.height / 2 + nodePos.y + _btnNode.height / 2)) / test2;
+            }
+
+            //获取纹理路径
+            let imgUrl = spriteComnpont.spriteFrame.getTexture().url;
 
             // this.m_UserInfoButton = WeChat.CreateUserInfoButton(imgUrl, left, top, width, height);
             // this.m_UserInfoButton.show();
@@ -288,6 +304,7 @@ export default class BasePlatform {
             }
         }
         else if (this.IsBytedanace()) {
+
         }
         else {
         }
@@ -409,9 +426,114 @@ export default class BasePlatform {
             // WeChat.ShareAppMessage(_title, _imageUrl);
         }
         else if (this.IsBytedanace()) {
-            Bytedanace.ShareAppMessage(_title, _imageUrl);
+            Bytedanace.ShareAppMessage("", _title, _imageUrl);
         }
         else {
+        }
+    }
+
+    /**
+     * 分享视频
+     * 
+     */
+    public ShareVideoMessage(_onSuccess: Function = null, _onFail: Function = null) {
+        if (this.IsWeChat()) {
+
+        }
+        else if (this.IsBytedanace()) {
+
+            if (!this.m_RecorderVideoUrl) {
+                if (_onFail) {
+                    _onFail();
+                }
+                return;
+            }
+
+            let desc = "看看耳朵里面还有啥";
+            if (Utils.RandNum(0, 1)) {
+                desc = "耳朵好痒，去采耳吧";
+            }
+            
+            Bytedanace.ShareAppMessage("video", desc, "", desc, this.m_RecorderVideoUrl,
+                ["采耳大师", "休闲"], "", "",
+                (res) => {
+                    console.log("分享成功");
+                    if (_onSuccess) {
+                        _onSuccess(res);
+                    }
+                },
+                (err) => {
+                    console.log("分享失败 err", err);
+                    if (_onFail) {
+                        _onFail(err);
+                    }
+                });
+        }
+        else {
+        }
+
+        // //录屏分享
+        // ShareAppVideoMessage(_videoPath, _videoTopics = ["话题1", "话题2"], _title = "分享视频", _desc = "测试描述", _onSuccess = null, _onFail = null) {
+        //     if (this.m_Platfrom == PlatformType.Zjkj_ByteDanceide) {
+        //         //字节跳动
+        //         ByteDanceide.getInstance().ShareAppVideoMessage(_videoPath, _videoTopics, _title, _desc, _onSuccess, _onFail);
+        //     }
+        //     else {
+        //     }
+        // }
+
+    }
+
+    /**
+     * 游戏录屏开始
+     */
+    public GameRecorderStart(_onStart: Function = null) {
+        if (this.IsBytedanace()) {
+            console.log("录屏开始");
+            //头条
+            Bytedanace.GameRecorderStart(_onStart);
+        }
+
+    }
+
+    /**
+     * 游戏录屏暂停
+     */
+    public GameRecorderPause(_onPause: Function = null) {
+        if (this.IsBytedanace()) {
+            //头条
+            Bytedanace.GameRecorderPause(_onPause);
+        }
+    }
+
+    /**
+     * 游戏录屏恢复
+     */
+    public GameRecorderResume(_onResume: Function = null) {
+        if (this.IsBytedanace()) {
+            //头条
+            Bytedanace.GameRecorderResume(_onResume);
+        }
+    }
+
+    /**
+     * 游戏录屏停止
+     */
+    public GameRecorderStop(_onStop: Function = null) {
+        if (this.IsBytedanace()) {
+            console.log("录屏停止");
+            this.m_RecorderVideoUrl = null;
+
+            //头条
+            Bytedanace.GameRecorderStop((res) => {
+                console.log("录屏停止res", res);
+                console.log("录屏停止res.videoPath", res.videoPath);
+                //记录录屏地址
+                this.m_RecorderVideoUrl = res.videoPath;
+                if (_onStop) {
+                    _onStop(res);
+                }
+            });
         }
     }
 

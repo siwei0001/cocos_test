@@ -92,12 +92,12 @@ export default class BaseAdv {
         else if (BasePlatform.getInstance().IsBytedanace()) {
             //字节跳动
             //初始化banner
-            this.m_BannerAd = Bytedanace.CreateBannerAd(BytedanceAdvConfig.BannerAdUnitId);
-            if (this.m_BannerAd) {
-                this.m_BannerAd.onError((err) => {
-                    console.error("InitBanner err", err);
-                })
-            }
+            // this.m_BannerAd = Bytedanace.CreateBannerAd(BytedanceAdvConfig.BannerAdUnitId);
+            // if (this.m_BannerAd) {
+            //     this.m_BannerAd.onError((err) => {
+            //         console.error("InitBanner err", err);
+            //     })
+            // }
         }
     }
 

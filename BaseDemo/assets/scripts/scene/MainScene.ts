@@ -22,10 +22,12 @@ export default class MainScene extends cc.Component {
         BaseAdv.getInstance().InitBaseAdv();
         MenuManage.getInstance().ShowMenu(BaseMenu.MainMenu);
         TgServer.getInstance().InitTgServer(() => {
-
+            let daya = TgServer.getInstance().GetTgAdvData(10, 0, true);
         }, () => {
 
         });
+
+
     }
 
     // update (dt) {}

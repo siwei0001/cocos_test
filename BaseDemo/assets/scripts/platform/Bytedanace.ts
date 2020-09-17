@@ -171,7 +171,7 @@ export class Bytedanace {
      * 分享 
      * @param {string} _title 分享标题
      * @param {string} _imageUrl 分享图片地址
-     * channel	string	否	转发内容类型	
+     * channel	string	否	转发内容类型 article video token
         templateId	string	否	分享素材模板 id，指定通过平台审核的 templateId 来选择分享内容，需在平台设置且通过审核。	1.22.3
         desc	string	否	分享文案，不传则默认使用后台配置内容或平台默认。	1.30.0
         title	string	否	转发标题，不传则默认使用后台配置或当前小游戏的名称。	
@@ -179,14 +179,33 @@ export class Bytedanace {
         query	string	否	查询字符串，必须是 key1=val1&key2=val2 的格式。从这条转发消息进入后，可通过 tt.getLaunchOptionsSync() 或 tt.onShow() 获取启动参数中的 query。	
         extra	object	否	附加信息
      */
-    static ShareAppMessage(_title: string, _imageUrl: string) {
+    static ShareAppMessage(_channel: string, _title: string, _imageUrl: string, _desc: string = "",
+        _videoPath: string = "", _videoTopics: Array<string> = [], _templateId: string = "", _query: string = "", _onSuccess: Function = null, _onFail: Function = null) {
 
         window["tt"].shareAppMessage({
+            channel: _channel,
             title: _title,
-            // imageUrlId: '转发标题',
-            imageUrl: _imageUrl // 图片 URL
+            desc: _desc,
+            imageUrl: _imageUrl,
+            templateId: _templateId, // 替换成通过审核的分享ID
+            query: _query,
+            extra: {
+                videoPath: _videoPath, // 可替换成录屏得到的视频地址
+                videoTopics: _videoTopics
+            },
+            success(res) {
+                console.log("分享视频成功");
+                if (_onSuccess) {
+                    _onSuccess(res);
+                }
+            },
+            fail(err) {
+                console.log("分享视频失败");
+                if (_onFail) {
+                    _onFail(err);
+                }
+            }
         })
-
     }
 
     /**
@@ -245,15 +264,16 @@ export class Bytedanace {
     /**
      * 创建一个banner广告
      * @param {string} _adUnitId 广告id
-     * @param {number} _left 左边位置 默认0
-     * @param {number} _top 顶部位置 默认0
-     * @param {number} _width 宽度 默认300
-     * @param {number} _height 高度 默认100
-     * @param {number} _adIntervals 广告刷新间隔 默认30
+     * @param {number} _left 左边位置
+     * @param {number} _top 顶部位置
+     * @param {number} _width 宽度
+     * @param {number} _height 高度
      */
-    static CreateBannerAd(_adUnitId: string, _left: number = 0, _top: number = 0, _width: number = 300, _height: number = 100, _adIntervals: number = 30) {
-        const version = Bytedanace.GetSystemInfoSync().SDKVersion
-        if (Bytedanace.CompareVersion(version, '1.3.0') >= 0) {
+    static CreateBannerAd(_adUnitId: string, _left: number, _top: number, _width: number, _height: number) {
+        const version = Bytedanace.GetSystemInfoSync().SDKVersion;
+        const appName = Bytedanace.GetSystemInfoSync().appName;
+        // Bytedanace.GetSystemInfoSync().appName == 'Douyin'
+        if (appName != 'Douyin' && Bytedanace.CompareVersion(version, '1.3.0') >= 0) {
             let banner = window["tt"].createBannerAd({
                 adUnitId: _adUnitId,
                 style: {
@@ -262,7 +282,7 @@ export class Bytedanace {
                     width: _width,
                     height: _height
                 },
-                adIntervals: _adIntervals,
+                adIntervals: 30,
             })
 
             return banner;
@@ -279,7 +299,9 @@ export class Bytedanace {
      */
     static CreateRewardedVideoAd(_adUnitId: string) {
         const version = Bytedanace.GetSystemInfoSync().SDKVersion
+        console.log("CreateRewardedVideoAd version", version);
         if (Bytedanace.CompareVersion(version, '1.3.0') >= 0) {
+            console.log("CreateRewardedVideoAd ");
             let rewardedVideoAd = window["tt"].createRewardedVideoAd({
                 adUnitId: _adUnitId
             })
@@ -290,7 +312,6 @@ export class Bytedanace {
             return null;
         }
     }
-
 
     /**
      * 创建插屏广告
@@ -368,15 +389,15 @@ export class Bytedanace {
      */
     static GameRecorderStart(_onStart: Function = null) {
         const version = Bytedanace.GetSystemInfoSync().SDKVersion
-        if (Bytedanace.CompareVersion(version, '1.4.1') >= 0) {
+        if (Bytedanace.CompareVersion(version, '1.0.0') >= 0) {
             let systemInfo = Bytedanace.GetSystemInfoSync();
             const screenWidth = systemInfo.screenWidth;
             const screenHeight = systemInfo.screenHeight;
-
             const recorder = window["tt"].getGameRecorderManager();
-            var maskInfo = recorder.getMark();
-            var x = (screenWidth - maskInfo.markWidth) / 2;
-            var y = (screenHeight - maskInfo.markHeight) / 2;
+            // var maskInfo = recorder.getMark();
+            // var x = (screenWidth - maskInfo.markWidth) / 2;
+            // var y = (screenHeight - maskInfo.markHeight) / 2;
+            // console.log("maskInfo",maskInfo);
 
             recorder.onStart((res) => {
                 console.log("录屏开始");
@@ -386,12 +407,23 @@ export class Bytedanace {
                 }
             });
 
+            recorder.onError((res) => {
+                console.log("录屏错误 errMsg", res.errMsg);
+            })
+
+            recorder.onInterruptionBegin(() => {
+                console.log("录屏中断");
+                recorder.pause();
+            })
+
+            recorder.onInterruptionEnd(() => {
+                console.log("录屏结束");
+                recorder.resume();
+            })
+
             //添加水印并且居中处理
             recorder.start({
-                duration: 30,
-                isMarkOpen: true,
-                locLeft: x,
-                locTop: y,
+                duration: 300,
             });
 
         } else {
@@ -404,10 +436,17 @@ export class Bytedanace {
     /**
      * 游戏录屏暂停
      */
-    static GameRecorderPause(_onStart: Function = null) {
+    static GameRecorderPause(_onPause: Function = null) {
         const version = Bytedanace.GetSystemInfoSync().SDKVersion
-        if (Bytedanace.CompareVersion(version, '1.4.1') >= 0) {
-
+        if (Bytedanace.CompareVersion(version, '1.6.1') >= 0) {
+            window["tt"].getGameRecorderManager().onPause(() => {
+                console.log("录屏暂停");
+                // do something;
+                if (_onPause) {
+                    _onPause();
+                }
+            })
+            window["tt"].getGameRecorderManager().pause();
         } else {
             // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
             // Bytedanace.ShowModal("提示", '当前版本过低，无法使用该功能，请升级到最新版本后重试。');
@@ -418,10 +457,17 @@ export class Bytedanace {
     /**
      * 游戏录屏恢复
      */
-    static GameRecorderResume(_onStart: Function = null) {
+    static GameRecorderResume(_onResume: Function = null) {
         const version = Bytedanace.GetSystemInfoSync().SDKVersion
-        if (Bytedanace.CompareVersion(version, '1.4.1') >= 0) {
-
+        if (Bytedanace.CompareVersion(version, '1.6.1') >= 0) {
+            window["tt"].getGameRecorderManager().onResume(() => {
+                console.log("录屏恢复");
+                // do something;
+                if (_onResume) {
+                    _onResume();
+                }
+            })
+            window["tt"].getGameRecorderManager().resume();
 
         } else {
             // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
@@ -433,10 +479,19 @@ export class Bytedanace {
     /**
      * 游戏录屏停止
      */
-    static GameRecorderStop(_onStart: Function = null) {
+    static GameRecorderStop(_onStop: Function = null) {
         const version = Bytedanace.GetSystemInfoSync().SDKVersion
-        if (Bytedanace.CompareVersion(version, '1.4.1') >= 0) {
+        if (Bytedanace.CompareVersion(version, '1.0.0') >= 0) {
+            console.log("GameRecorderStop");
+            window["tt"].getGameRecorderManager().onStop((res) => {
+                console.log("录屏停止");
+                // do something;
+                if (_onStop) {
+                    _onStop(res);
+                }
+            });
 
+            window["tt"].getGameRecorderManager().stop();
         } else {
             // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
             // Bytedanace.ShowModal("提示", '当前版本过低，无法使用该功能，请升级到最新版本后重试。');

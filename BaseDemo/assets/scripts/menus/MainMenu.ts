@@ -18,6 +18,7 @@ export default class MainMenu extends BaseLayer {
 
     start() {
         // this.node.on()
+        console.log("node", this.node);
 
     }
 
@@ -28,7 +29,7 @@ export default class MainMenu extends BaseLayer {
         if (event.target.name == "Btn_ADMenu") {
             MenuManage.getInstance().ShowMenu(BaseMenu.ADMenu);
         }
-        else if(event.target.name == "Btn_TgPromote"){
+        else if (event.target.name == "Btn_TgPromote") {
             MenuManage.getInstance().ShowMenu(BaseMenu.TgPromoteMenu);
         }
     }

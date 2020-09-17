@@ -1,8 +1,50 @@
+import TgServer from "../../scripts/platform/TgServer";
+
 const { ccclass, property } = cc._decorator;
 
-@ccclass
-export default class TgBanner extends cc.Component {
+enum LayoutType {
+    HORIZONTAL = 1,
+    VERTICAL,
+    Grid,
+}
 
+interface PromoteStyle {
+    left?: number,  //左边
+    top?: number,   //顶部
+    width?: number, //宽
+    height?: number //高
+}
+
+interface PromoteAdv {
+    start?: number,     //数据开始
+    num?: number,       //数据数量
+    rand?: boolean,     //数据是否是随机
+}
+
+interface PromoteLayout {
+    type?: LayoutType,  //类型  
+    spacingX?: number,  //横向间隔
+    spacingY?: number   //竖向间隔
+}
+
+/**
+ * 推广参数
+ */
+interface PromoteParam {
+    parent?: cc.Node,           //父节点
+    style?: PromoteStyle,       //格式
+    PromoteLayout?: PromoteLayout,//排序
+    cellstyle: PromoteStyle,    //单元格式
+    promoteAdv: PromoteAdv,     //广告数据
+    updateWidget: boolean       //更新标记
+    autoswitch: number,         //自动更换数据间隔时间
+    autoscrolle: boolean,       //自动滚动标记
+}
+
+@ccclass
+export default class TgPromote extends cc.Component {
+
+    // LIFE-CYCLE CALLBACKS:
     @property(cc.Node)
     AdvRoot = null;
 
@@ -12,70 +54,70 @@ export default class TgBanner extends cc.Component {
     @property(cc.Node)
     Img_Bg = null;
 
-    @property(cc.Node)
-    MoreGame = null;
+    m_LayoutType: LayoutType = LayoutType.HORIZONTAL;
+    m_CellStype: PromoteStyle = {};
+    m_PromoteAdv: PromoteAdv = {};
+    m_UpdateWidget: boolean = false;
+    m_Autoswitch: number = 0;
+    m_Autoscrolle: boolean = false;
 
-    _m_TgData = null;
-    _m_ItemArray = [];
-
-    _m_Top = 10;
-    _m_Left = 10;
-
-    _m_StartIndex = 0;
-
-    _m_NodePoolName = "";
-    _m_TgPos = "";
-    _m_CloseCallFun = null;
-    _m_MoreGameCallFun = null;
-    _m_JumpCallFun = null;
-    // LIFE-CYCLE CALLBACKS:
-
-    _m_Update = false;
-    _m_LasteItem = null;
-
-    _m_Style: any = null;
-    _m_Adv: any = null;
-
-    _m_Col: number = 0;
     // onLoad () {}
-
-    start() {
-
-    }
 
     /**
      * 初始化广告数据
      */
-    InitTgData(_nodePoolName: string, _tgPos: string, _style: any, _adv: any) {
-        // this._m_NodePoolName = _nodePoolName;
-        // this._m_TgPos = _tgPos;
-        // this._m_Style = _style;
-        // this._m_Adv = _adv;
+    // let self = obj.getComponent(PromoteType.TgPromote);
+    // self.InitTgData(_option.PromoteLayout,  //排序
+    //     _option.cellstyle,  //单元格式
+    //     _option.promoteAdv, //广告数据
+    //     _option.updateWidget,//更新标记
+    //     _option.autoswitch, //自动更换数据间隔时间
+    //     _option.autoscrolle //自动滚动标记
+    // );
+    InitTgData(_layout: PromoteLayout, _cellstyle: PromoteStyle, _promoteadv: PromoteAdv, _updatewidget: boolean, _autoswitch: number, _autoscrolle: boolean) {
+        //布局类型
+        this.m_LayoutType = _layout ? (_layout.type ? _layout.type : LayoutType.HORIZONTAL) : LayoutType.HORIZONTAL;
+        //单元风格
+        this.m_CellStype = _cellstyle;
+        if (this.m_CellStype) {
+            //单元宽
+            if (this.m_CellStype.width) {
+                this.AdvItem.width = this.m_CellStype.width;
+            }
+            //单元高
+            if (this.m_CellStype.height) {
+                this.AdvItem.height = this.m_CellStype.height;
+            }
+        }
+        //广告数据
+        this.m_PromoteAdv = _promoteadv;
+        //更新标记
+        this.m_UpdateWidget = _updatewidget ? _updatewidget : false;
+        //自动更换数据间隔时间
+        this.m_Autoswitch = _autoswitch ? _autoswitch : 0;
+        //自动滚动标记
+        this.m_Autoscrolle = _autoscrolle ? _autoscrolle : true;
 
-        // //绑定函数
-        // this._m_MoreGameCallFun = this._m_Adv.moreGameCallFun;
-        // this._m_JumpCallFun = this._m_Adv.jumpCallFun;
+        if (this.m_LayoutType == LayoutType.HORIZONTAL) {
+            //水平排序
+        }
+        else if (this.m_LayoutType == LayoutType.VERTICAL) {
+            //垂直排序
+        }
+        else if (this.m_LayoutType == LayoutType.Grid) {
+            //九宫格排序
+        }
 
-        // //设置广告显示大小
-        // this.node.width = this._m_Style.width;
-        // this.node.height = this._m_Style.height;
+        //填充广告
+        let TgData = TgServer.getInstance().GetTgAdvData(this.m_PromoteAdv.num, this.m_PromoteAdv.start, this.m_PromoteAdv.rand);
+        if (TgData.length) {
+            //广告数据
+            for (let index = 0; index < TgData.length; index++) {
+                const zjkj_data = TgData[index];
+                
+            }
+        }
 
-        // //设置位置
-        // this.node.getComponent(cc.Widget).top = this._m_Style.top;
-        // this.node.getComponent(cc.Widget).left = this._m_Style.left;
-        // this.node.getComponent(cc.Widget).updateAlignment();
-
-        // //显示更多游戏
-        // if (this._m_Adv.moreGame && !(this._m_Style.horizontal && this._m_Style.vertical)) {
-        //     this.Img_Bg.active = true;
-        //     this.MoreGame.active = true;
-        //     this.MoreGame.width = this._m_Style.cellSize.width;
-        //     this.MoreGame.height = this._m_Style.cellSize.height;
-        // }
-        // else {
-        //     this.Img_Bg.active = false;
-        //     this.MoreGame.active = false;
-        // }
         // this._m_StartIndex = this._m_Adv.start;
         // let TgData = TgAdvSdk.getInstance().GetTgBarConfig(this._m_Adv.num, this._m_Adv.rand, this._m_Adv.start);
         // TgAdvSdk.getInstance().TgLog("TgData", TgData);
@@ -259,14 +301,14 @@ export default class TgBanner extends cc.Component {
     //     }
     // }
 
-    UpdateWidget(_top: number = 0, _left: number = 0) {
-        if (this._m_Style.updateWidget) {
-            let widgetComponent = this.node.getComponent(cc.Widget);
-            widgetComponent.top = _top;
-            widgetComponent.left = _left;
-            widgetComponent.updateAlignment();
-        }
-    }
+    // UpdateWidget(_top: number = 0, _left: number = 0) {
+    //     if (this._m_Style.updateWidget) {
+    //         let widgetComponent = this.node.getComponent(cc.Widget);
+    //         widgetComponent.top = _top;
+    //         widgetComponent.left = _left;
+    //         widgetComponent.updateAlignment();
+    //     }
+    // }
 
     /**
      * 释放
@@ -315,5 +357,4 @@ export default class TgBanner extends cc.Component {
         //     }
         // }
     }
-
 }
