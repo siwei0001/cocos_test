@@ -211,23 +211,81 @@ export default class TgServer {
         }
     }
 
-    //返回广告数据
+    /**
+     * 返回广告数据
+     * @param advNum 广告数目
+     * @param start 开始位置
+     * @param rand 随机标记
+     * 不传advNum会返回全部广告数据
+     */
     GetTgAdvData(advNum?: number, start?: number, rand?: boolean): Array<TgAdvConfig> {
         let tempList = [];
-
         let tempDataList = [...this._TgAdvConfig]//Utils.CloneObj(this._TgAdvConfig);
         //判断是否有广告数据
         if (tempDataList.length > 0) {
-
             //判断开始位置是否超出数据长度
-            if (start > tempDataList.length - 1) {
+            if (!start || start > tempDataList.length - 1) {
                 start = 0;
             }
 
             //根据开始位置筛选数据
             let tgBarData = tempDataList.slice(start, tempDataList.length);
 
-            if (advNum == 0) {
+            if (!advNum) {
+                //如果传入的数量为0则表示从开始位置取出全部的数据
+                advNum = tgBarData.length;
+            }
+
+            //随机
+            if (rand) {
+                for (let index = 0; index < advNum; index++) {
+                    if (tgBarData.length > 0) {
+                        let randindex = Utils.RandNum(0, tgBarData.length - 1);
+                        tempList.push(tgBarData[randindex])
+                        tgBarData.splice(randindex, 1);
+                    }
+                }
+            }
+            else {
+                for (let index = 0; index < advNum; index++) {
+                    if (tgBarData.length - index > 0) {
+                        tempList.push(tgBarData[index])
+                    }
+                }
+            }
+        }
+        return tempList;
+    }
+
+    /**
+     * 返回自研游戏广告数据
+     * @param advNum 广告数目
+     * @param start 开始位置
+     * @param rand 随机标记
+     */
+    GetTgZjkjAdvData(advNum?: number, start?: number, rand?: boolean): Array<TgAdvConfig> {
+        let tempList = [];
+        let tempDataList = [];
+
+        //筛选自研游戏
+        for (let index = 0; index < this._TgAdvConfig.length; index++) {
+            const tempdata = this._TgAdvConfig[index];
+            if (tempdata.ggz_name == "指尖科技") {
+                tempDataList.push(Utils.CloneObj(tempdata));
+            }
+        }
+
+        //判断是否有广告数据
+        if (tempDataList.length > 0) {
+            //判断开始位置是否超出数据长度
+            if (!start || start > tempDataList.length - 1) {
+                start = 0;
+            }
+
+            //根据开始位置筛选数据
+            let tgBarData = tempDataList.slice(start, tempDataList.length);
+
+            if (!advNum) {
                 //如果传入的数量为0则表示从开始位置取出全部的数据
                 advNum = tgBarData.length;
             }
@@ -251,16 +309,15 @@ export default class TgServer {
             }
         }
 
-        console.log("GetTgAdvData, this._TgAdvConfig",this._TgAdvConfig);
-
-        console.log("GetTgAdvData, tempDataList",tempDataList);
-
-        console.log("GetTgAdvData, tempList",tempList);
-
         return tempList;
     }
-    //返回自研游戏广告数据
 
-    //
+    /**
+     * 返回广告数据条数
+     */
+    GetTgAdvDataLength(): number {
+        return this._TgAdvConfig.length;
+    }
+
 
 }

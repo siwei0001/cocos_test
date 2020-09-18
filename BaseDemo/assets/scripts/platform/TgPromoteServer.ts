@@ -40,11 +40,11 @@ interface PromoteParam {
     parent?: cc.Node,           //父节点
     style?: PromoteStyle,       //格式
     PromoteLayout?: PromoteLayout,//排序
-    cellstyle: PromoteStyle,    //单元格式
-    promoteAdv: PromoteAdv,     //广告数据
-    updateWidget: boolean       //更新标记
-    autoswitch: number,         //自动更换数据间隔时间
-    autoscrolle: boolean,       //自动滚动标记
+    cellstyle?: PromoteStyle,    //单元格式
+    promoteAdv?: PromoteAdv,     //广告数据
+    updateWidget?: boolean       //更新标记
+    autoswitch?: number,         //自动更换数据间隔时间
+    autoscrolle?: boolean,       //自动滚动标记
 }
 
 /**
@@ -54,6 +54,7 @@ export enum PromoteType {
     TgPromote = "TgPromote",                //基础推广
     TgCapsule = "TgCapsule",                //假退出
     TgCollect = "TgCollect",                //假收藏
+    TgDrawer = "TgDrawer",                 //抽屉
     TgFullScreen = "TgFullScreen",          //全屏
     TgInterstitial = "TgInterstitial",      //插屏
     TgTypeFullScreen = "TgTypeFullScreen",  //分类全屏
@@ -98,27 +99,34 @@ export default class TgPromoteServer {
 
     /**
      * 显示推广
-     * @param _option 
-     * parent //父节点
-     * 
+     * @param _option 传入的参数
      */
     ShowPromote(_option: PromoteParam) {
         //
         let bundle = cc.assetManager.getBundle(this.m_BundleName);
-        bundle.load("Prefabs/" + PromoteType.TgPromote, cc.Prefab, (err, asset: cc.Prefab) => {
+        console.log("bundle", bundle);
+        bundle.load("prefabs/" + PromoteType.TgPromote, cc.Prefab, (err, asset: cc.Prefab) => {
+            if (err) {
+                console.log("ShowPromote", err);
+                return;
+            }
+
             //加载推广预制体 传入参数
             let obj = cc.instantiate(asset);
             obj.parent = _option.parent ? _option.parent : cc.find("Canvas");
-            //判断是否有widget
-            let widgetCom = obj.getComponent(cc.Widget);
-            widgetCom.top = _option.style.top ? _option.style.top : 0;
-            widgetCom.left = _option.style.left ? _option.style.left : 0;
-            //再次对齐一次
-            widgetCom.updateAlignment();
+            if (_option.style) {
+                //长宽
+                obj.width = _option.style.width ? _option.style.width : 120;
+                obj.height = _option.style.height ? _option.style.height : 120;
 
-            //长宽
-            obj.width = _option.style.width ? _option.style.width : 120;
-            obj.height = _option.style.height ? _option.style.height : 120;
+                //判断是否有widget
+                let widgetCom = obj.getComponent(cc.Widget);
+                widgetCom.target = cc.find("Canvas");
+                widgetCom.top = _option.style.top ? _option.style.top : 0;
+                widgetCom.left = _option.style.left ? _option.style.left : 0;
+                //再次对齐一次
+                widgetCom.updateAlignment();
+            }
 
             //传入脚本参数
             let self = obj.getComponent(PromoteType.TgPromote);
@@ -143,9 +151,77 @@ export default class TgPromoteServer {
         })
     }
 
-    //显示抽屉
-    ShowDrawer(_option: PromoteParam) {
+    /**
+     * 移除界面推广
+     * @param _node 传入的父节点
+     */
+    RmovePromote(_node: cc.Node = null) {
+        if (!_node) {
+            //node没有传入则以Canvas为准
+            _node = cc.find("Canvas");
+        }
 
+        let objList = this.m_MenuAdv.get(_node.uuid);
+        if (objList) {
+            for (let index = 0; index < objList.length; index++) {
+                const obj = objList[index];
+                obj.destroy();
+            }
+        }
+    }
+
+    //显示抽屉
+    ShowDrawer() {
+        // TgDrawer
+        let bundle = cc.assetManager.getBundle(this.m_BundleName);
+        console.log("bundle", bundle);
+        bundle.load("prefabs/" + PromoteType.TgDrawer, cc.Prefab, (err, asset: cc.Prefab) => {
+
+            if (err) {
+                console.log("ShowDrawer", err);
+                return;
+            }
+
+            //加载推广预制体 传入参数
+            let obj = cc.instantiate(asset);
+            obj.parent = cc.find("Canvas");
+            console.log("ShowDrawer obj", obj);
+            
+            // if (_option.style) {
+            //     //长宽
+            //     obj.width = _option.style.width ? _option.style.width : 120;
+            //     obj.height = _option.style.height ? _option.style.height : 120;
+
+            //     //判断是否有widget
+            //     let widgetCom = obj.getComponent(cc.Widget);
+            //     widgetCom.target = cc.find("Canvas");
+            //     widgetCom.top = _option.style.top ? _option.style.top : 0;
+            //     widgetCom.left = _option.style.left ? _option.style.left : 0;
+            //     //再次对齐一次
+            //     widgetCom.updateAlignment();
+            // }
+
+            // //传入脚本参数
+            // let self = obj.getComponent(PromoteType.TgPromote);
+            // self.InitTgData(_option.PromoteLayout,  //排序
+            //     _option.cellstyle,  //单元格式
+            //     _option.promoteAdv, //广告数据
+            //     _option.updateWidget,//更新标记
+            //     _option.autoswitch, //自动更换数据间隔时间
+            //     _option.autoscrolle //自动滚动标记
+            // );
+
+            // //用父节点uuid记住界面编号
+            // let objList = this.m_MenuAdv.get(obj.parent.uuid);
+            // if (objList) {
+            //     objList.push(obj);
+            // }
+            // else {
+            //     objList = [];
+            //     objList.push(obj);
+            //     this.m_MenuAdv.set(obj.parent.uuid, objList);
+            // }
+        })
     }
 
     //显示收藏界面

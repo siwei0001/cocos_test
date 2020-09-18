@@ -13,6 +13,14 @@ export var BaseMenu = {
     TgPromoteMenu: 'prefabs/TgPromoteMenu',
 }
 
+export enum UILayer {
+    UI_Base = 10,   //基础层
+    UI_Menu,        //界面成
+    UI_Adv,         //广告层
+    UI_Tips,        //提示层  
+
+}
+
 export default class MenuManage {
 
     private static _instance: MenuManage;
