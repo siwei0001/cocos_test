@@ -4,5 +4,18 @@
     "iconGizmoSize": 2,
     "isGridVisible": true,
     "isIconGizmo3D": false
+  },
+  "float-window": {
+    "position": {
+      "cc": {
+        "CameraComponent": {
+          "bottom": 10,
+          "dock": false,
+          "left": null,
+          "right": 10,
+          "top": null
+        }
+      }
+    }
   }
 }
