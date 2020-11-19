@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "mianmenu_btn_carlibary",
+    "texture": "d3e0f512-6381-427f-a355-9d6bf8e47f29",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      267,
+      107
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      267,
+      107
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

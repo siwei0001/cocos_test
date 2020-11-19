@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "mianmenu_btn_gamecarlibary",
+    "texture": "8f7b800e-6714-4563-989c-30e9843154d5",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      101,
+      111
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      101,
+      111
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

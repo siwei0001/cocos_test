@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "mianmenu_img_coins_bg",
+    "texture": "b164dcaa-9fe4-434a-bbed-057be4d3fbcb",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      144,
+      56
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      144,
+      56
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

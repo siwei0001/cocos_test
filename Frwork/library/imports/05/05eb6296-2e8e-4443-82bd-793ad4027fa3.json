@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "mianmenu_img_levelprogress",
+    "texture": "f9633146-d405-4e46-854d-3e1d845925cb",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      275,
+      78
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      275,
+      78
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

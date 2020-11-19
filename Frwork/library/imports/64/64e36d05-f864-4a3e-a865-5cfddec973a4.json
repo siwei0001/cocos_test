@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "mianmenu_btn_back",
+    "texture": "b31aec45-b471-4796-aaea-78587f99cb02",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      87,
+      111
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      87,
+      111
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}
