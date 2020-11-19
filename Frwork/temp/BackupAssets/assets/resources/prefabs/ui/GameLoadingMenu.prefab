@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "GamePlayMenu",
+    "_name": "",
     "_objFlags": 0,
     "_native": "",
     "data": {
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "GamePlayMenu",
+    "_name": "GameLoadingMenu",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -107,8 +107,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 720,
-      "height": 1280
+      "width": 40,
+      "height": 36
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -160,10 +160,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "bd5f5330-b45b-450b-8ece-87ac6cf051e5"
+      "__uuid__": "8cdb44ac-a3f6-449f-b354-7cd48cf84061"
     },
     "_type": 0,
-    "_sizeMode": 0,
+    "_sizeMode": 1,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -182,9 +182,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "77fcff3c-b4ed-4854-be99-a5cf591f9c2c"
+      "__uuid__": "a6d3ed9e-0fc5-47ba-a20f-f3065199146b"
     },
-    "fileId": "5dprUpLyFCh4PPGA6cL61S",
+    "fileId": "6fZcGQhqBGF7id4rIvbbQq",
     "sync": false
   },
   {
@@ -230,9 +230,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "77fcff3c-b4ed-4854-be99-a5cf591f9c2c"
+      "__uuid__": "a6d3ed9e-0fc5-47ba-a20f-f3065199146b"
     },
-    "fileId": "35oq08JilMjaAcEVu5x78V",
+    "fileId": "58LPR0K7JKZJU2B2NY/Rj3",
     "sync": false
   }
 ]

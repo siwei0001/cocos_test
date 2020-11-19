@@ -7,22 +7,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Utils_1 = require("../utils/Utils");
 var BaseLayer_1 = require("../base/BaseLayer");
 exports.BaseMenu = {
-    GameLoadingMenu: 'prefabs/GameLoadingMenu',
-    MainMenu: 'prefabs/MainMenu',
-    ResultMenu: 'prefabs/ResultMenu',
-    CarLibaryMenu: 'prefabs/CarLibaryMenu',
-    TipsMenu: 'prefabs/TipsMenu',
-    GetCoinsMenu: 'prefabs/GetCoinsMenu',
-    GuideMenu: 'prefabs/GuideMenu',
-    ADMenu: 'prefabs/ADMenu',
-    TgPromoteMenu: 'prefabs/TgPromoteMenu',
+    GameLoadingMenu: 'prefabs/ui//GameLoadingMenu',
+    MainMenu: 'prefabs/ui//MainMenu',
+    GamePlayMenu: "prefabs/ui/GamePlayMenu",
+    ResultMenu: 'prefabs/ui//ResultMenu',
+    PopMenu: 'prefabs/ui//PopMenu',
+    TipsMenu: 'prefabs/ui//TipsMenu',
 };
 var UILayer;
 (function (UILayer) {
-    UILayer[UILayer["UI_Base"] = 10] = "UI_Base";
-    UILayer[UILayer["UI_Menu"] = 11] = "UI_Menu";
-    UILayer[UILayer["UI_Adv"] = 12] = "UI_Adv";
-    UILayer[UILayer["UI_Tips"] = 13] = "UI_Tips";
+    UILayer[UILayer["SCENE"] = 0] = "SCENE";
+    UILayer[UILayer["GAME"] = 1] = "GAME";
+    UILayer[UILayer["HUD"] = 2] = "HUD";
+    UILayer[UILayer["POPUP"] = 3] = "POPUP";
+    UILayer[UILayer["ALERT"] = 4] = "ALERT";
+    UILayer[UILayer["NOTICE"] = 5] = "NOTICE";
+    UILayer[UILayer["MASK"] = 6] = "MASK";
+    UILayer[UILayer["NUM"] = 7] = "NUM";
 })(UILayer = exports.UILayer || (exports.UILayer = {}));
 var MenuManage = /** @class */ (function () {
     /**

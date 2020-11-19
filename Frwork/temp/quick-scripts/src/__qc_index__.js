@@ -9,6 +9,8 @@ require('./assets/scripts/manage/NodePoolManage');
 require('./assets/scripts/manage/RankManage');
 require('./assets/scripts/manage/SaveManage');
 require('./assets/scripts/platform/BasePlatform');
+require('./assets/scripts/scenes/BaseDemo');
+require('./assets/scripts/scenes/Debug');
 require('./assets/scripts/ui/GamePlayMenu');
 require('./assets/scripts/ui/MainMenu');
 require('./assets/scripts/ui/PopMenu');

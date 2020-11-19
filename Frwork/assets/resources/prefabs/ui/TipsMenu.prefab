@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "MainMenu",
+    "_name": "",
     "_objFlags": 0,
     "_native": "",
     "data": {
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "MainMenu",
+    "_name": "TipsMenu",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -119,9 +119,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "eb24b36e-39f5-4290-bdcf-ee5c0058382d"
+      "__uuid__": "dfab79ec-a6bf-4766-8a6c-9ccbb49db929"
     },
-    "fileId": "d9nJ3GP9hFqI1uCAwnlx7d",
+    "fileId": "58LPR0K7JKZJU2B2NY/Rj3",
     "sync": false
   }
 ]

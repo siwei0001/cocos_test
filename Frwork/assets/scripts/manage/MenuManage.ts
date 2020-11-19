@@ -2,23 +2,23 @@ import Utils from "../utils/Utils";
 import BaseLayer from "../base/BaseLayer";
 
 export var BaseMenu = {
-    GameLoadingMenu: 'prefabs/GameLoadingMenu',
-    MainMenu: 'prefabs/MainMenu',
-    ResultMenu: 'prefabs/ResultMenu',
-    CarLibaryMenu: 'prefabs/CarLibaryMenu',
-    TipsMenu: 'prefabs/TipsMenu',
-    GetCoinsMenu: 'prefabs/GetCoinsMenu',
-    GuideMenu: 'prefabs/GuideMenu',
-    ADMenu: 'prefabs/ADMenu',
-    TgPromoteMenu: 'prefabs/TgPromoteMenu',
+    GameLoadingMenu: 'prefabs/ui//GameLoadingMenu',
+    MainMenu: 'prefabs/ui//MainMenu',
+    GamePlayMenu:"prefabs/ui/GamePlayMenu",
+    ResultMenu: 'prefabs/ui//ResultMenu',
+    PopMenu: 'prefabs/ui//PopMenu',
+    TipsMenu: 'prefabs/ui//TipsMenu',
 }
 
-export enum UILayer {
-    UI_Base = 10,   //基础层
-    UI_Menu,        //界面成
-    UI_Adv,         //广告层
-    UI_Tips,        //提示层  
-
+export enum UILayer { 
+    SCENE,
+    GAME,
+    HUD,
+    POPUP,
+    ALERT,
+    NOTICE,
+    MASK,
+    NUM
 }
 
 export default class MenuManage {
