@@ -111,6 +111,8 @@ export class MeshTest extends Component {
         // 渲染顺序
         indices.push(0, 2, 1);
         indices.push(0, 3, 2);
+        indices.push(6, 7, 1);
+        indices.push(3, 2, 5);
         indices.push(3, 4, 2);
         indices.push(4, 7, 5);
         indices.push(7, 6, 5);
@@ -119,6 +121,8 @@ export class MeshTest extends Component {
         indices.push(4, 0, 7);
         indices.push(2, 5, 6);
         indices.push(2, 6, 1);
+        indices.push(2, 6, 1);
+
         let Options = {
             positions,
             normals,
