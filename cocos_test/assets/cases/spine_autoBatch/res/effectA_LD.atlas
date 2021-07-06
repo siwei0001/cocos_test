@@ -1,0 +1,27 @@
+
+effectA_LD.png
+size: 256,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BGlight
+  rotate: true
+  xy: 2, 2
+  size: 124, 122
+  orig: 124, 122
+  offset: 0, 0
+  index: -1
+linhunqi
+  rotate: false
+  xy: 126, 38
+  size: 87, 88
+  orig: 87, 88
+  offset: 0, 0
+  index: -1
+xinxin
+  rotate: true
+  xy: 215, 86
+  size: 40, 38
+  orig: 40, 38
+  offset: 0, 0
+  index: -1

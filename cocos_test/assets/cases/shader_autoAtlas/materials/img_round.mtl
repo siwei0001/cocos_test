@@ -1,0 +1,22 @@
+{
+  "__type__": "cc.Material",
+  "_name": "img_round",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "dbe29a7b-2d76-4f03-8947-18c355152898"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "defines": {
+        "USE_TEXTURE": true
+      },
+      "props": {
+        "texture": {
+          "__uuid__": "262289a7-975f-470d-9527-17721120e17a"
+        }
+      }
+    }
+  }
+}

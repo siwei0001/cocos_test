@@ -8,7 +8,7 @@
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class img_move_main extends cc.Component {
 
     @property(cc.Graphics)
     Draw: cc.Graphics = null;

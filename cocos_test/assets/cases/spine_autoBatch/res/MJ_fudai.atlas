@@ -1,0 +1,27 @@
+
+MJ_fudai.png
+size: 107,66
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+images/cs_fudai_shang
+  rotate: false
+  xy: 62, 2
+  size: 35, 23
+  orig: 35, 23
+  offset: 0, 0
+  index: -1
+images/cs_fudai_xia
+  rotate: false
+  xy: 2, 12
+  size: 58, 52
+  orig: 58, 52
+  offset: 0, 0
+  index: -1
+images/cs_hudiejie
+  rotate: false
+  xy: 62, 27
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: -1

@@ -44,8 +44,8 @@ export default class DataManage {
      * @param {string} _netUrl 
      * @param {...any} _jsonFile 
      */
-    LoadNetJson(_callFun: Function, _netUrl: string, ..._jsonFile) {
-        Utils.CCLog('LoadNetJson', _jsonFile);
+    loadNetJson(_callFun: Function, _netUrl: string, ..._jsonFile) {
+        Utils.CCLog('loadNetJson', _jsonFile);
         let fileCount = _jsonFile.length;
         let arrLoadSuccess = new Array();
 
@@ -68,7 +68,7 @@ export default class DataManage {
                 let http = new Http();
                 http.SetReqType(HttpReqType.GET);
                 http.Request(_netUrl + fileName, (data) => {
-                    Utils.CCLog('LoadNetJson succes', data);
+                    Utils.CCLog('loadNetJson succes', data);
                     this.m_JsonData.set(fileName, data);
                     arrLoadSuccess.push(fileName);
                     if (arrLoadSuccess.length == fileCount) {
@@ -78,7 +78,7 @@ export default class DataManage {
                         _callFun("loading " + fileName, arrLoadSuccess.length);
                     }
                 }, (err) => {
-                    Utils.CCLog('LoadNetJson err', err);
+                    Utils.CCLog('loadNetJson err', err);
                 })
             }
         }
@@ -90,8 +90,8 @@ export default class DataManage {
      * @param {string} _netUrl 
      * @param {Array<string>} _jsonFile 
      */
-    LoadNetJsonArray(_callFun: Function, _netUrl: string, _jsonFileArray: Array<string>) {
-        Utils.CCLog('LoadNetJson', _jsonFileArray);
+    loadNetJsonArray(_callFun: Function, _netUrl: string, _jsonFileArray: Array<string>) {
+        Utils.CCLog('loadNetJsonArray', _jsonFileArray);
         let fileCount = _jsonFileArray.length;
         let arrLoadSuccess = new Array();
 
@@ -135,8 +135,8 @@ export default class DataManage {
      * @param {string} _pathUrl 
      * @param {...any} _jsonFile 
      */
-    LoadResJson(_callFun: Function, _pathUrl: string, ..._jsonFile) {
-        Utils.CCLog('LoadResJson', _jsonFile);
+    loadResJson(_callFun: Function, _pathUrl: string, ..._jsonFile) {
+        Utils.CCLog('loadResJson', _jsonFile);
         let fileCount = _jsonFile.length;
         let arrLoadSuccess = new Array();
 
@@ -161,7 +161,7 @@ export default class DataManage {
                         Utils.CCLog('loadRes err', err);
                         return;
                     }
-                    Utils.CCLog("LoadResJson ", _pathUrl + fileName, "data", data);
+                    Utils.CCLog("loadResJson ", _pathUrl + fileName, "data", data);
                     this.m_JsonData.set(fileName, data.json);
                     arrLoadSuccess.push(fileName);
                     if (arrLoadSuccess.length == fileCount) {
@@ -179,7 +179,7 @@ export default class DataManage {
      * 返回对应json的数据
      * @param {string} _keyName 
      */
-    GetJson(_keyName: string) {
+    getJson(_keyName: string) {
         return this.m_JsonData.get(_keyName);
     }
 
@@ -189,8 +189,7 @@ export default class DataManage {
      * @param {any} _id 
      * 
      */
-    GetJsonVaule(_keyName: string, _id: any) {
-
+    getJsonValue(_keyName: string, _id: any) {
         let json = this.m_JsonData.get(_keyName);
         for (let index = 0; index < json.length; index++) {
             let data = json[index];
@@ -206,10 +205,10 @@ export default class DataManage {
      * 初始化json数据
      * @param {Function} _callFun 
      */
-    InitJsonData(_callFun: Function) {
+    initJsonData(_callFun: Function) {
         let url = BaseConfig.NetConfig.NetRoot + BaseConfig.NetConfig.NetRes;
         //加载json
-        this.LoadNetJson((state, res) => {
+        this.loadNetJson((state, res) => {
             //配置资源加载完成
             if (state == "success") {
                 if (_callFun) {
