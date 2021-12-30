@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.4",
+  "uuid": "457bd490-4c37-4c34-82ba-ec7335e928d9",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 67,
+  "height": 41,
+  "platformSettings": {},
+  "subMetas": {
+    "wolf_buyRole_activityBg": {
+      "ver": "1.0.4",
+      "uuid": "09e1c42f-6ebe-4e49-a167-604b0f9b7216",
+      "rawTextureUuid": "457bd490-4c37-4c34-82ba-ec7335e928d9",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 67,
+      "height": 41,
+      "rawWidth": 67,
+      "rawHeight": 41,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

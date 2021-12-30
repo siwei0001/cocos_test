@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.4",
+  "uuid": "53c747bf-017b-4c42-86e2-0a90cef21176",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 210,
+  "height": 269,
+  "platformSettings": {},
+  "subMetas": {
+    "wolf_win_balance_wing_love": {
+      "ver": "1.0.4",
+      "uuid": "7b7b67b2-a43f-4b0b-893b-018427e057b6",
+      "rawTextureUuid": "53c747bf-017b-4c42-86e2-0a90cef21176",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 210,
+      "height": 269,
+      "rawWidth": 210,
+      "rawHeight": 269,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

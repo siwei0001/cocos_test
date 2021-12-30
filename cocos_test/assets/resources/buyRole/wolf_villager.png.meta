@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.4",
+  "uuid": "3ff88ed8-bda2-4a98-8a5b-a6dea66d24e4",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 103,
+  "height": 52,
+  "platformSettings": {},
+  "subMetas": {
+    "wolf_villager": {
+      "ver": "1.0.4",
+      "uuid": "c267abde-1d86-4563-9bef-b64176930d8a",
+      "rawTextureUuid": "3ff88ed8-bda2-4a98-8a5b-a6dea66d24e4",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 103,
+      "height": 52,
+      "rawWidth": 103,
+      "rawHeight": 52,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
