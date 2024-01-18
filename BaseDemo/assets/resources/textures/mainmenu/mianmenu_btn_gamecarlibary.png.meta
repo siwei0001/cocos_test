@@ -1,6 +1,7 @@
 {
-  "ver": "2.3.5",
+  "ver": "2.3.7",
   "uuid": "06c1dd12-a48d-4b05-bb91-61ea76ec858d",
+  "importer": "texture",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -12,8 +13,9 @@
   "platformSettings": {},
   "subMetas": {
     "mianmenu_btn_gamecarlibary": {
-      "ver": "1.0.4",
+      "ver": "1.0.6",
       "uuid": "e0a00501-3b6d-4f7d-8b37-333717a19600",
+      "importer": "sprite-frame",
       "rawTextureUuid": "06c1dd12-a48d-4b05-bb91-61ea76ec858d",
       "trimType": "auto",
       "trimThreshold": 1,

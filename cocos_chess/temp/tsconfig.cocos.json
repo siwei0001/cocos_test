@@ -15,7 +15,7 @@
         "/Applications/Cocos/Creator/3.8.0/CocosCreator.app/Contents/Resources/resources/3d/engine/editor/assets/*"
       ],
       "db://assets/*": [
-        "/Users/zhangyuliang/Work/Work_Github/cocos_test/BaseDemo3D/assets/*"
+        "/Users/zhangyuliang/Work/Work_Github/cocos_test/cocos_chess/assets/*"
       ]
     },
     "experimentalDecorators": true,

@@ -1,6 +1,7 @@
 {
-  "ver": "2.3.5",
+  "ver": "2.3.7",
   "uuid": "96577965-24f6-4027-a83a-f8b70943961f",
+  "importer": "texture",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -12,8 +13,9 @@
   "platformSettings": {},
   "subMetas": {
     "tgadv_img_capsule": {
-      "ver": "1.0.4",
+      "ver": "1.0.6",
       "uuid": "77e31346-16d5-43fe-a5c4-9592302d2624",
+      "importer": "sprite-frame",
       "rawTextureUuid": "96577965-24f6-4027-a83a-f8b70943961f",
       "trimType": "auto",
       "trimThreshold": 1,

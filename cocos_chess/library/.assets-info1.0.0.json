@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "map": {
+    "/Users/zhangyuliang/Work/Work_Github/cocos_test/cocos_chess/assets/Scence.meta": {
+      "time": 1697451539351.4268
+    },
+    "/Users/zhangyuliang/Work/Work_Github/cocos_test/cocos_chess/assets/Scence": {
+      "time": 1697451553276.9124,
+      "uuid": "ec5e1b45-b0b0-4845-8ca9-51ee7b6a4a4c"
+    },
+    "/Users/zhangyuliang/Work/Work_Github/cocos_test/cocos_chess/assets/Scence/debug.scene.meta": {
+      "time": 1697451553280.7769
+    },
+    "/Users/zhangyuliang/Work/Work_Github/cocos_test/cocos_chess/assets/Scence/debug.scene": {
+      "time": 1697451565750.5361,
+      "uuid": "c8e25fa1-fadf-4b6a-a900-b94cfc71e5f8"
+    }
+  },
+  "missing": {}
+}

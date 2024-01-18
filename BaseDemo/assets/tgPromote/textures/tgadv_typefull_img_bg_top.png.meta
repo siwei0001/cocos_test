@@ -1,6 +1,7 @@
 {
-  "ver": "2.3.5",
+  "ver": "2.3.7",
   "uuid": "538605c2-8581-4321-b5b9-fc00f0be4c80",
+  "importer": "texture",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -12,8 +13,9 @@
   "platformSettings": {},
   "subMetas": {
     "tgadv_typefull_img_bg_top": {
-      "ver": "1.0.4",
+      "ver": "1.0.6",
       "uuid": "a4715389-8cd6-4c2c-bcdd-ee8022f14375",
+      "importer": "sprite-frame",
       "rawTextureUuid": "538605c2-8581-4321-b5b9-fc00f0be4c80",
       "trimType": "auto",
       "trimThreshold": 1,

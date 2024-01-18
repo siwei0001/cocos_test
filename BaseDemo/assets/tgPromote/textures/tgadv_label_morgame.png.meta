@@ -1,6 +1,7 @@
 {
-  "ver": "2.3.5",
+  "ver": "2.3.7",
   "uuid": "753d22bc-8c18-4251-9d51-a8dd3d54c10b",
+  "importer": "texture",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -12,8 +13,9 @@
   "platformSettings": {},
   "subMetas": {
     "tgadv_label_morgame": {
-      "ver": "1.0.4",
+      "ver": "1.0.6",
       "uuid": "7b6da17a-baba-4f77-ab11-353ef03cd289",
+      "importer": "sprite-frame",
       "rawTextureUuid": "753d22bc-8c18-4251-9d51-a8dd3d54c10b",
       "trimType": "auto",
       "trimThreshold": 1,

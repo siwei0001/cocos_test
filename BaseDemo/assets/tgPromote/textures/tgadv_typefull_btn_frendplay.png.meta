@@ -1,6 +1,7 @@
 {
-  "ver": "2.3.5",
+  "ver": "2.3.7",
   "uuid": "1e341aeb-835a-45d7-8d4b-312931bb3e81",
+  "importer": "texture",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -12,8 +13,9 @@
   "platformSettings": {},
   "subMetas": {
     "tgadv_typefull_btn_frendplay": {
-      "ver": "1.0.4",
+      "ver": "1.0.6",
       "uuid": "c1908eaa-c92e-46a5-8a87-0f8d48311219",
+      "importer": "sprite-frame",
       "rawTextureUuid": "1e341aeb-835a-45d7-8d4b-312931bb3e81",
       "trimType": "auto",
       "trimThreshold": 1,

@@ -1,6 +1,7 @@
 {
-  "ver": "2.3.5",
+  "ver": "2.3.7",
   "uuid": "671bfa05-6750-4ed6-ba60-e4fe9d216262",
+  "importer": "texture",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -12,8 +13,9 @@
   "platformSettings": {},
   "subMetas": {
     "mianmenu_img_coins_bg": {
-      "ver": "1.0.4",
+      "ver": "1.0.6",
       "uuid": "098f142c-7659-4cf0-b1c2-5d35cca11612",
+      "importer": "sprite-frame",
       "rawTextureUuid": "671bfa05-6750-4ed6-ba60-e4fe9d216262",
       "trimType": "auto",
       "trimThreshold": 1,

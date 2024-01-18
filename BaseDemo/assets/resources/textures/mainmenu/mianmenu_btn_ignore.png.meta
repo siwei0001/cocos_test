@@ -1,6 +1,7 @@
 {
-  "ver": "2.3.5",
+  "ver": "2.3.7",
   "uuid": "d456414f-ffe7-42f0-93e5-a149bbc2e0df",
+  "importer": "texture",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -12,8 +13,9 @@
   "platformSettings": {},
   "subMetas": {
     "mianmenu_btn_ignore": {
-      "ver": "1.0.4",
+      "ver": "1.0.6",
       "uuid": "185ce2d6-906c-41a5-8918-ecb8af7384a5",
+      "importer": "sprite-frame",
       "rawTextureUuid": "d456414f-ffe7-42f0-93e5-a149bbc2e0df",
       "trimType": "auto",
       "trimThreshold": 1,

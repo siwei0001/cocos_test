@@ -1,6 +1,7 @@
 {
-  "ver": "2.3.5",
+  "ver": "2.3.7",
   "uuid": "8bde714d-69d4-4afa-93e7-d9375908343a",
+  "importer": "texture",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -12,8 +13,9 @@
   "platformSettings": {},
   "subMetas": {
     "tgadv_typefull_btn_hot": {
-      "ver": "1.0.4",
+      "ver": "1.0.6",
       "uuid": "3ceb3f75-61e6-498c-929f-cb6a33484c5a",
+      "importer": "sprite-frame",
       "rawTextureUuid": "8bde714d-69d4-4afa-93e7-d9375908343a",
       "trimType": "auto",
       "trimThreshold": 1,

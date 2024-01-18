@@ -1,6 +1,7 @@
 {
-  "ver": "2.3.5",
+  "ver": "2.3.7",
   "uuid": "2a144de6-d958-4106-85f8-9cd7d2becfae",
+  "importer": "texture",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -12,8 +13,9 @@
   "platformSettings": {},
   "subMetas": {
     "mainmenu_img_gameguidehand": {
-      "ver": "1.0.4",
+      "ver": "1.0.6",
       "uuid": "7576a9f1-7808-4426-97bb-2cbb43bcd186",
+      "importer": "sprite-frame",
       "rawTextureUuid": "2a144de6-d958-4106-85f8-9cd7d2becfae",
       "trimType": "auto",
       "trimThreshold": 1,

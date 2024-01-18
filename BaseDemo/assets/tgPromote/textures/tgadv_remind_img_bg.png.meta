@@ -1,6 +1,7 @@
 {
-  "ver": "2.3.5",
+  "ver": "2.3.7",
   "uuid": "d3c17a1f-7477-40cd-9636-0d629c1d3fd2",
+  "importer": "texture",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -12,8 +13,9 @@
   "platformSettings": {},
   "subMetas": {
     "tgadv_remind_img_bg": {
-      "ver": "1.0.4",
+      "ver": "1.0.6",
       "uuid": "ab9c700f-29ca-4ed1-9850-98312a6ab39b",
+      "importer": "sprite-frame",
       "rawTextureUuid": "d3c17a1f-7477-40cd-9636-0d629c1d3fd2",
       "trimType": "auto",
       "trimThreshold": 1,

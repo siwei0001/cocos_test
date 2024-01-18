@@ -1,0 +1,17 @@
+{
+  "ec5e1b45-b0b0-4845-8ca9-51ee7b6a4a4c": {
+    "url": "db://assets/Scence",
+    "value": {}
+  },
+  "c8e25fa1-fadf-4b6a-a900-b94cfc71e5f8": {
+    "url": "db://assets/Scence/debug.scene",
+    "value": {
+      "depends": [
+        "c8e25fa1-fadf-4b6a-a900-b94cfc71e5f8",
+        "d032ac98-05e1-4090-88bb-eb640dcb5fc1@b47c0",
+        "6f01cf7f-81bf-4a7e-bd5d-0afc19696480@b47c0"
+      ],
+      "dependScripts": []
+    }
+  }
+}
